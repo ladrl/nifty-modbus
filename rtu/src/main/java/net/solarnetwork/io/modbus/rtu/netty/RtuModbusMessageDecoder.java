@@ -99,8 +99,8 @@ public class RtuModbusMessageDecoder extends ReplayingDecoder<DecoderState> {
 				break;
 
 			case BAD_DATA:
-				// discard input
-				in.skipBytes(in.readableBytes());
+				// discard input; note because of Replaying readableBytes() must invert from MAX_VALUE
+				in.skipBytes(Integer.MAX_VALUE - in.readableBytes());
 				checkpoint(DecoderState.READ_FIXED_HEADER);
 				break;
 		}

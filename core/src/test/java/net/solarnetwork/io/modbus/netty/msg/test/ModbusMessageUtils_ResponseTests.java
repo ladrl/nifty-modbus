@@ -42,6 +42,7 @@ import net.solarnetwork.io.modbus.ModbusErrorCodes;
 import net.solarnetwork.io.modbus.ModbusFunctionCode;
 import net.solarnetwork.io.modbus.ModbusFunctionCodes;
 import net.solarnetwork.io.modbus.ModbusMessage;
+import net.solarnetwork.io.modbus.ModbusUnsupportedFunctionException;
 import net.solarnetwork.io.modbus.ReadWriteRegistersModbusMessage;
 import net.solarnetwork.io.modbus.RegistersModbusMessage;
 import net.solarnetwork.io.modbus.UserModbusError;
@@ -690,7 +691,7 @@ public class ModbusMessageUtils_ResponseTests {
 		// @formatter:on
 		for ( byte fn : unsupportedFunctions ) {
 			ByteBuf buf = Unpooled.wrappedBuffer(new byte[] { fn });
-			assertThrows(UnsupportedOperationException.class, () -> {
+			assertThrows(ModbusUnsupportedFunctionException.class, () -> {
 				ModbusMessageUtils.decodeResponsePayload(buf);
 			}, format("Unsupported function %x throws exception", fn));
 		}

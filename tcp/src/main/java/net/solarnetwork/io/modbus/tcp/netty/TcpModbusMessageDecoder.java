@@ -29,8 +29,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;
 import net.solarnetwork.io.modbus.AddressedModbusMessage;
 import net.solarnetwork.io.modbus.ModbusMessage;
+import net.solarnetwork.io.modbus.ModbusUnsupportedFunctionException;
 import net.solarnetwork.io.modbus.netty.msg.ModbusMessageUtils;
 import net.solarnetwork.io.modbus.netty.msg.SimpleModbusMessageReply;
+import net.solarnetwork.io.modbus.tcp.TcpModbusUnsupportedFunctionException;
 import net.solarnetwork.io.modbus.tcp.netty.TcpModbusMessageDecoder.DecoderState;
 
 /**
@@ -120,31 +122,38 @@ public class TcpModbusMessageDecoder extends ReplayingDecoder<DecoderState> {
 
 	private void readPayload(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
 		ModbusMessage msg = null;
-		if ( controller ) {
-			// inbound response
-			TcpModbusMessage req = pendingMessages.get(transactionId);
-			AddressedModbusMessage addr = (req != null ? req.unwrap(AddressedModbusMessage.class)
-					: null);
-			ModbusMessage payload = ModbusMessageUtils.decodeResponsePayload(unitId,
-					(addr != null ? addr.getAddress() : 0), (addr != null ? addr.getCount() : 0), in);
-			if ( payload != null ) {
-				if ( req != null ) {
-					pendingMessages.remove(transactionId, req);
-					msg = new SimpleModbusMessageReply(req.unwrap(ModbusMessage.class),
-							new TcpModbusMessage(transactionId, payload));
-				} else {
-					msg = new TcpModbusMessage(transactionId, payload);
+		try {
+			if ( controller ) {
+				// inbound response
+				TcpModbusMessage req = pendingMessages.get(transactionId);
+				AddressedModbusMessage addr = (req != null ? req.unwrap(AddressedModbusMessage.class)
+						: null);
+				ModbusMessage payload = ModbusMessageUtils.decodeResponsePayload(unitId,
+						(addr != null ? addr.getAddress() : 0), (addr != null ? addr.getCount() : 0),
+						in);
+				if ( payload != null ) {
+					if ( req != null ) {
+						pendingMessages.remove(transactionId, req);
+						msg = new SimpleModbusMessageReply(req.unwrap(ModbusMessage.class),
+								new TcpModbusMessage(transactionId, payload));
+					} else {
+						msg = new TcpModbusMessage(transactionId, payload);
+					}
+				}
+			} else {
+				// inbound request
+				ModbusMessage payload = null;
+				payload = ModbusMessageUtils.decodeRequestPayload(unitId, 0, 0, in);
+				if ( payload != null ) {
+					TcpModbusMessage req = new TcpModbusMessage(System.currentTimeMillis(),
+							transactionId, payload);
+					pendingMessages.put(transactionId, req);
+					msg = req;
 				}
 			}
-		} else {
-			// inbound request
-			ModbusMessage payload = ModbusMessageUtils.decodeRequestPayload(unitId, 0, 0, in);
-			if ( payload != null ) {
-				TcpModbusMessage req = new TcpModbusMessage(System.currentTimeMillis(), transactionId,
-						payload);
-				pendingMessages.put(transactionId, req);
-				msg = req;
-			}
+		} catch ( ModbusUnsupportedFunctionException ufe ) {
+			throw new TcpModbusUnsupportedFunctionException(ufe.getCode(), ufe.getUnitId(),
+					transactionId);
 		}
 		if ( msg != null ) {
 			out.add(msg);

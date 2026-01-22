@@ -25,9 +25,11 @@ package net.solarnetwork.io.modbus.rtu.netty.test;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -40,10 +42,12 @@ import org.slf4j.LoggerFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
+import io.netty.handler.codec.DecoderException;
 import net.solarnetwork.io.modbus.ModbusByteUtils;
 import net.solarnetwork.io.modbus.ModbusFunctionCode;
 import net.solarnetwork.io.modbus.ModbusFunctionCodes;
 import net.solarnetwork.io.modbus.ModbusMessage;
+import net.solarnetwork.io.modbus.ModbusUnsupportedFunctionException;
 import net.solarnetwork.io.modbus.RegistersModbusMessage;
 import net.solarnetwork.io.modbus.rtu.netty.RtuModbusMessage;
 import net.solarnetwork.io.modbus.rtu.netty.RtuModbusMessageDecoder;
@@ -109,6 +113,39 @@ public class RtuModbusMessageDecoderTests {
 		assertThat("Provided CRC preserved", msg.getCrc(), is(equalTo((short) 0xDDCC)));
 		assertThat("Calculated CRC", msg.computeCrc(), is(equalTo((short) 0x08B0)));
 		assertThat("CRC invalid", msg.isCrcValid(), is(equalTo(false)));
+	}
+
+	@Test
+	public void responder_request_unsupportedFunction() {
+		// GIVEN
+
+		// write unsupported function... with trailing bytes that includes start of next message...
+		// @formatter:off
+		final byte[] data = new byte[] {
+				(byte)0x01,
+				ModbusFunctionCodes.GET_COMM_EVENT_LOG,
+				(byte)0x00,
+				(byte)0xCC,
+				(byte)0xDD,
+				(byte)0x01
+		};
+		ByteBuf buf = Unpooled.copiedBuffer(data);
+		// @formatter:on
+
+		// WHEN
+
+		DecoderException result = assertThrows(DecoderException.class, () -> {
+			responderChannel.writeInbound(buf);
+		}, "DecoderException thrown by unsupported function");
+
+		// THEN
+		assertThat("ModbusUnsupportedFunctionException is cause", result.getCause(),
+				is(instanceOf(ModbusUnsupportedFunctionException.class)));
+
+		ModbusUnsupportedFunctionException ufe = (ModbusUnsupportedFunctionException) result.getCause();
+		assertThat("Unit ID returned on exception", ufe.getUnitId(), is(equalTo((short) 0x01)));
+		assertThat("Function code returned on exception", ufe.getCode(),
+				is(equalTo(ModbusFunctionCodes.GET_COMM_EVENT_LOG)));
 	}
 
 	@Test
