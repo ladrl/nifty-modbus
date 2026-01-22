@@ -253,6 +253,8 @@ public final class ModbusMessageUtils {
 	 * @param in
 	 *        the input
 	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @throws UnsupportedOperationException
+	 *         if the Modbus function code is not supported
 	 */
 	public static ModbusMessage decodeRequestPayload(final ByteBuf in) {
 		return decodeRequestPayload(0, 0, 0, in);
@@ -326,6 +328,8 @@ public final class ModbusMessageUtils {
 	 * @param in
 	 *        the input
 	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @throws UnsupportedOperationException
+	 *         if the Modbus function code is not supported
 	 */
 	public static ModbusMessage decodeResponsePayload(final ByteBuf in) {
 		return decodeResponsePayload(0, 0, 0, in);
@@ -343,6 +347,8 @@ public final class ModbusMessageUtils {
 	 * @param in
 	 *        the input
 	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @throws UnsupportedOperationException
+	 *         if the Modbus function code is not supported
 	 */
 	public static ModbusMessage decodeResponsePayload(final int unitId, final int address,
 			final int count, final ByteBuf in) {
