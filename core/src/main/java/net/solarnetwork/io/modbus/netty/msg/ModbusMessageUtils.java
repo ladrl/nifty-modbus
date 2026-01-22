@@ -28,6 +28,7 @@ import net.solarnetwork.io.modbus.ModbusErrorCode;
 import net.solarnetwork.io.modbus.ModbusFunction;
 import net.solarnetwork.io.modbus.ModbusFunctionCode;
 import net.solarnetwork.io.modbus.ModbusMessage;
+import net.solarnetwork.io.modbus.ModbusUnsupportedFunctionException;
 
 /**
  * Utilities for encoding/decoding Modbus messages.
@@ -253,7 +254,7 @@ public final class ModbusMessageUtils {
 	 * @param in
 	 *        the input
 	 * @return the message, or {@literal null} if a message cannot be decoded
-	 * @throws UnsupportedOperationException
+	 * @throws ModbusUnsupportedFunctionException
 	 *         if the Modbus function code is not supported
 	 */
 	public static ModbusMessage decodeRequestPayload(final ByteBuf in) {
@@ -272,7 +273,7 @@ public final class ModbusMessageUtils {
 	 * @param in
 	 *        the input
 	 * @return the message, or {@literal null} if a message cannot be decoded
-	 * @throws UnsupportedOperationException
+	 * @throws ModbusUnsupportedFunctionException
 	 *         if the Modbus function code is not supported
 	 */
 	public static ModbusMessage decodeRequestPayload(final int unitId, final int address,
@@ -318,8 +319,7 @@ public final class ModbusMessageUtils {
 				break;
 
 		}
-		throw new UnsupportedOperationException(
-				"Modbus function [" + Byte.toUnsignedInt(fn) + "] not supported.");
+		throw new ModbusUnsupportedFunctionException(fn, (short) unitId);
 	}
 
 	/**
@@ -328,7 +328,7 @@ public final class ModbusMessageUtils {
 	 * @param in
 	 *        the input
 	 * @return the message, or {@literal null} if a message cannot be decoded
-	 * @throws UnsupportedOperationException
+	 * @throws ModbusUnsupportedFunctionException
 	 *         if the Modbus function code is not supported
 	 */
 	public static ModbusMessage decodeResponsePayload(final ByteBuf in) {
@@ -347,7 +347,7 @@ public final class ModbusMessageUtils {
 	 * @param in
 	 *        the input
 	 * @return the message, or {@literal null} if a message cannot be decoded
-	 * @throws UnsupportedOperationException
+	 * @throws ModbusUnsupportedFunctionException
 	 *         if the Modbus function code is not supported
 	 */
 	public static ModbusMessage decodeResponsePayload(final int unitId, final int address,
@@ -393,8 +393,7 @@ public final class ModbusMessageUtils {
 				break;
 
 		}
-		throw new UnsupportedOperationException(
-				"Modbus function [" + Byte.toUnsignedInt(fn) + "] not supported.");
+		throw new ModbusUnsupportedFunctionException(fn, (short) unitId);
 
 	}
 
