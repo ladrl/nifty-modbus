@@ -270,6 +270,8 @@ public final class ModbusMessageUtils {
 	 * @param in
 	 *        the input
 	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @throws UnsupportedOperationException
+	 *         if the Modbus function code is not supported
 	 */
 	public static ModbusMessage decodeRequestPayload(final int unitId, final int address,
 			final int count, final ByteBuf in) {
