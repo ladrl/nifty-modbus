@@ -51,8 +51,10 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
 import net.solarnetwork.io.modbus.ModbusMessage;
+import net.solarnetwork.io.modbus.netty.msg.BaseModbusMessage;
 import net.solarnetwork.io.modbus.netty.msg.SimpleModbusMessageReply;
 import net.solarnetwork.io.modbus.tcp.SimpleTransactionIdSupplier;
+import net.solarnetwork.io.modbus.tcp.TcpModbusUnsupportedFunctionException;
 
 /**
  * A basic asynchronous Modbus TCP server.
@@ -66,7 +68,7 @@ import net.solarnetwork.io.modbus.tcp.SimpleTransactionIdSupplier;
  * </p>
  *
  * @author matt
- * @version 1.0
+ * @version 1.1
  */
 public class NettyTcpModbusServer {
 
@@ -89,6 +91,7 @@ public class NettyTcpModbusServer {
 	private ScheduledFuture<?> cleanupTask;
 
 	private BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler;
+	private BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler;
 	private BiFunction<InetSocketAddress, Boolean, Boolean> clientConnectionListener;
 	private long pendingMessageTtl = DEFAULT_PENDING_MESSAGE_TTL;
 	private boolean wireLogging;
@@ -319,6 +322,25 @@ public class NettyTcpModbusServer {
 			});
 		}
 
+		@Override
+		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+			log.debug("Exception: {}", cause);
+			final BiConsumer<Throwable, Consumer<ModbusMessage>> h = getExceptionHandler();
+			if ( h == null ) {
+				return;
+			}
+			h.accept(cause, (r) -> {
+				ModbusMessage response = r;
+				if ( cause instanceof TcpModbusUnsupportedFunctionException ) {
+					TcpModbusUnsupportedFunctionException ufe = (TcpModbusUnsupportedFunctionException) cause;
+					ModbusMessage msg = new BaseModbusMessage(ufe.getUnitId(), ufe.getCode());
+					response = new SimpleModbusMessageReply(
+							new TcpModbusMessage(ufe.getTransactionId(), msg), r);
+				}
+				ctx.channel().writeAndFlush(response);
+			});
+		}
+
 	}
 
 	private final class PendingMessageExpiredCleaner implements Runnable {
@@ -395,6 +417,32 @@ public class NettyTcpModbusServer {
 	 */
 	public void setMessageHandler(BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler) {
 		this.messageHandler = messageHandler;
+	}
+
+	/**
+	 * Get the exception handler.
+	 * 
+	 * @return the handler
+	 * @since 1.1
+	 */
+	public BiConsumer<Throwable, Consumer<ModbusMessage>> getExceptionHandler() {
+		return exceptionHandler;
+	}
+
+	/**
+	 * Set the exception handler.
+	 * 
+	 * <p>
+	 * This handler will be passed an exception along with a {@code Consumer}
+	 * for any reply message.
+	 * </p>
+	 * 
+	 * @param exceptionHandler
+	 *        the exception handler to set
+	 * @since 1.1
+	 */
+	public void setExceptionHandler(BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler) {
+		this.exceptionHandler = exceptionHandler;
 	}
 
 	/**

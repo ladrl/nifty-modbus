@@ -40,6 +40,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.logging.LoggingHandler;
 import net.solarnetwork.io.modbus.ModbusMessage;
+import net.solarnetwork.io.modbus.ModbusUnsupportedFunctionException;
+import net.solarnetwork.io.modbus.netty.msg.BaseModbusMessage;
 import net.solarnetwork.io.modbus.netty.msg.SimpleModbusMessageReply;
 import net.solarnetwork.io.modbus.netty.serial.SerialAddress;
 import net.solarnetwork.io.modbus.netty.serial.SerialPortChannel;
@@ -58,7 +60,7 @@ import net.solarnetwork.io.modbus.serial.SerialPortProvider;
  * </p>
  *
  * @author matt
- * @version 1.0
+ * @version 1.1
  */
 public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 
@@ -70,6 +72,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	private final boolean privateEventLoopGroup;
 
 	private BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler;
+	private BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler;
 	private BiFunction<String, Boolean, Boolean> clientConnectionListener;
 	private boolean wireLogging;
 
@@ -284,6 +287,25 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 			});
 		}
 
+		@Override
+		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+			log.debug("Exception: {}", cause);
+			final BiConsumer<Throwable, Consumer<ModbusMessage>> h = getExceptionHandler();
+			if ( h == null ) {
+				return;
+			}
+			h.accept(cause, (r) -> {
+				ModbusMessage response = r;
+				if ( cause instanceof ModbusUnsupportedFunctionException ) {
+					ModbusUnsupportedFunctionException ufe = (ModbusUnsupportedFunctionException) cause;
+					ModbusMessage msg = new BaseModbusMessage(ufe.getUnitId(), ufe.getCode());
+					response = new SimpleModbusMessageReply(new RtuModbusMessage(ufe.getUnitId(), msg),
+							r);
+				}
+				ctx.channel().writeAndFlush(response);
+			});
+		}
+
 	}
 
 	/**
@@ -335,6 +357,32 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 */
 	public void setMessageHandler(BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler) {
 		this.messageHandler = messageHandler;
+	}
+
+	/**
+	 * Get the exception handler.
+	 * 
+	 * @return the handler
+	 * @since 1.1
+	 */
+	public BiConsumer<Throwable, Consumer<ModbusMessage>> getExceptionHandler() {
+		return exceptionHandler;
+	}
+
+	/**
+	 * Set the exception handler.
+	 * 
+	 * <p>
+	 * This handler will be passed an exception along with a {@code Consumer}
+	 * for any reply message.
+	 * </p>
+	 * 
+	 * @param exceptionHandler
+	 *        the exception handler to set
+	 * @since 1.1
+	 */
+	public void setExceptionHandler(BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler) {
+		this.exceptionHandler = exceptionHandler;
 	}
 
 	/**

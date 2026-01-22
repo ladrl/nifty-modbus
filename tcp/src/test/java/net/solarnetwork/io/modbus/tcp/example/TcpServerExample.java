@@ -25,6 +25,7 @@ package net.solarnetwork.io.modbus.tcp.example;
 import static net.solarnetwork.io.modbus.netty.msg.RegistersModbusMessage.readHoldingsResponse;
 import net.solarnetwork.io.modbus.ModbusBlockType;
 import net.solarnetwork.io.modbus.ModbusErrorCode;
+import net.solarnetwork.io.modbus.ModbusUnsupportedFunctionException;
 import net.solarnetwork.io.modbus.RegistersModbusMessage;
 import net.solarnetwork.io.modbus.netty.msg.BaseModbusMessage;
 import net.solarnetwork.io.modbus.tcp.netty.NettyTcpModbusServer;
@@ -97,6 +98,17 @@ public class TcpServerExample {
 				// send back error that we don't handle that request
 				sender.accept(new BaseModbusMessage(msg.getUnitId(), msg.getFunction(),
 						ModbusErrorCode.IllegalFunction));
+			}
+		});
+
+		server.setExceptionHandler((ex, sender) -> {
+			if ( ex instanceof ModbusUnsupportedFunctionException ) {
+				// send back error that we don't handle that request (decoding not supported)
+				ModbusUnsupportedFunctionException ufe = (ModbusUnsupportedFunctionException) ex;
+				sender.accept(new BaseModbusMessage(ufe.getUnitId(), ufe.getCode(),
+						ModbusErrorCode.IllegalFunction.getCode()));
+			} else {
+				System.err.println("Modbus server exception: " + ex);
 			}
 		});
 
