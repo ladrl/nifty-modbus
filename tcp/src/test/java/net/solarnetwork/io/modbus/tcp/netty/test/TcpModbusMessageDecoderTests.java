@@ -26,6 +26,7 @@ import static net.solarnetwork.io.modbus.test.support.ModbusTestUtils.byteObject
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.sameInstance;
@@ -37,9 +38,12 @@ import org.junit.jupiter.api.Test;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
+import io.netty.handler.codec.DecoderException;
 import net.solarnetwork.io.modbus.ModbusFunctionCodes;
 import net.solarnetwork.io.modbus.ModbusMessageReply;
+import net.solarnetwork.io.modbus.netty.msg.BaseModbusMessage;
 import net.solarnetwork.io.modbus.netty.msg.RegistersModbusMessage;
+import net.solarnetwork.io.modbus.tcp.TcpModbusUnsupportedFunctionException;
 import net.solarnetwork.io.modbus.tcp.netty.TcpModbusMessage;
 import net.solarnetwork.io.modbus.tcp.netty.TcpModbusMessageDecoder;
 
@@ -202,6 +206,37 @@ public class TcpModbusMessageDecoderTests {
 						(byte)0x03 
 		})));
 		// @formatter:on
+	}
+
+	@Test
+	public void responder_request_unsupportedFunction() {
+		// GIVEN
+		EmbeddedChannel channel = new EmbeddedChannel(new TcpModbusMessageDecoder(false, messages));
+
+		final short unitId = 1;
+		final int transactionId = 123;
+
+		BaseModbusMessage req = new BaseModbusMessage(unitId, ModbusFunctionCodes.GET_COMM_EVENT_LOG);
+		TcpModbusMessage tcp = new TcpModbusMessage(transactionId, req);
+		ByteBuf buf = Unpooled.buffer(tcp.payloadLength());
+		tcp.encodeModbusPayload(buf);
+
+		// WHEN
+		DecoderException result = assertThrows(DecoderException.class, () -> {
+			channel.writeInbound(buf);
+		}, "DecoderException thrown by unsupported function");
+
+		// THEN
+		assertThat("TcpModbusUnsupportedFunctionException is cause", result.getCause(),
+				is(instanceOf(TcpModbusUnsupportedFunctionException.class)));
+
+		TcpModbusUnsupportedFunctionException ufe = (TcpModbusUnsupportedFunctionException) result
+				.getCause();
+		assertThat("Unit ID returned on exception", ufe.getUnitId(), is(equalTo(unitId)));
+		assertThat("Function code returned on exception", ufe.getCode(),
+				is(equalTo(ModbusFunctionCodes.GET_COMM_EVENT_LOG)));
+		assertThat("Transaction ID returned on exception", ufe.getTransactionId(),
+				is(equalTo(transactionId)));
 	}
 
 }
