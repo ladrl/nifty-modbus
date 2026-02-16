@@ -268,6 +268,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 			}
 		}
 
+		@SuppressWarnings("ReturnValueIgnored")
 		@Override
 		public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 			log.info("Client disconnected: {}", ctx.channel());
