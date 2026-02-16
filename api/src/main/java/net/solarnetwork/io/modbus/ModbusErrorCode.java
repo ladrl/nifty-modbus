@@ -85,7 +85,7 @@ public enum ModbusErrorCode implements ModbusError {
 
 	;
 
-	private byte code;
+	private final byte code;
 
 	ModbusErrorCode(byte code) {
 		this.code = code;
@@ -140,7 +140,7 @@ public enum ModbusErrorCode implements ModbusError {
 
 	/**
 	 * Get an enum instance for a code value.
-	 * 
+	 *
 	 * @param code
 	 *        the code
 	 * @return the enum
