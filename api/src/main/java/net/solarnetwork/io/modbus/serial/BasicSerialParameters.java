@@ -98,7 +98,7 @@ public class BasicSerialParameters implements SerialParameters {
 		if ( flags == null || flags.isEmpty() ) {
 			return;
 		}
-		String[] list = flags.split("\\s*,\\s*");
+		String[] list = flags.split("\\s*,\\s*", 0);
 		Pattern numArgPat = Pattern.compile("(\\w+)=(\\d+)");
 		for ( String flag : list ) {
 			boolean enable = true;

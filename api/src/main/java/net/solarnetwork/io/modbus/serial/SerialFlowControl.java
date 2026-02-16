@@ -170,7 +170,7 @@ public enum SerialFlowControl {
 			return EnumSet.of(None);
 		}
 		Set<SerialFlowControl> result = new HashSet<>(2);
-		String[] components = value.split("\\s*/\\s*");
+		String[] components = value.split("\\s*/\\s*", 0);
 		for ( String cmp : components ) {
 			if ( NO_FLOW_CONTROL_ABBREVIATION.equalsIgnoreCase(cmp) ) {
 				result.add(None);
