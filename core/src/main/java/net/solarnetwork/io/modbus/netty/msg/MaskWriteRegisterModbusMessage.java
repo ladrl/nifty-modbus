@@ -252,7 +252,7 @@ public class MaskWriteRegisterModbusMessage extends RegistersModbusMessage
 	public int getAndMask() {
 		final byte[] data = data();
 		if ( data != null && data.length > 3 ) {
-			return (((data[0] & 0xFF) << 8) | data[1] & 0xFF);
+			return (((data[0] & 0xFF) << 8) | (data[1] & 0xFF));
 		}
 		return 0;
 	}
@@ -261,7 +261,7 @@ public class MaskWriteRegisterModbusMessage extends RegistersModbusMessage
 	public int getOrMask() {
 		final byte[] data = data();
 		if ( data != null && data.length > 3 ) {
-			return (((data[2] & 0xFF) << 8) | data[3] & 0xFF);
+			return (((data[2] & 0xFF) << 8) | (data[3] & 0xFF));
 		}
 		return 0;
 	}

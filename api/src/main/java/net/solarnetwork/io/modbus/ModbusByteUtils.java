@@ -82,7 +82,7 @@ public final class ModbusByteUtils {
 	/**
 	 * Compute a 16-bit cyclic redundancy check (CRC) value from a range of
 	 * bytes.
-	 * 
+	 *
 	 * @param data
 	 *        the data to compute the CRC value
 	 * @param start
@@ -107,7 +107,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Encode a single byte as a character.
-	 * 
+	 *
 	 * @param b
 	 *        the byte to encode
 	 * @param toDigits
@@ -128,12 +128,12 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Convert a hex-encoded string to a byte array.
-	 * 
+	 *
 	 * <p>
 	 * If the string does not have an even number of characters, a {@literal 0}
 	 * will be inserted at the start of the string.
 	 * </p>
-	 * 
+	 *
 	 * @param s
 	 *        the string to decode
 	 * @return the bytes, never {@literal null}
@@ -148,12 +148,12 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Convert a hex-encoded string to a byte array.
-	 * 
+	 *
 	 * <p>
 	 * If the string does not have an even number of characters, a {@literal 0}
 	 * will be inserted at the start of the string.
 	 * </p>
-	 * 
+	 *
 	 * @param chars
 	 *        the characters to decode
 	 * @return the bytes, never {@literal null}
@@ -184,7 +184,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Encode a byte array into a hex-encoded upper-case string without spaces.
-	 * 
+	 *
 	 * @param data
 	 *        the data to encode as hex strings
 	 * @param fromIndex
@@ -199,7 +199,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Encode a byte array into a hex-encoded upper-case string.
-	 * 
+	 *
 	 * @param data
 	 *        the data to encode as hex strings
 	 * @param fromIndex
@@ -217,7 +217,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Encode a byte array into a hex-encoded string.
-	 * 
+	 *
 	 * @param data
 	 *        the data to encode as hex strings
 	 * @param fromIndex
@@ -252,7 +252,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Get raw data from unsigned 16-bit values.
-	 * 
+	 *
 	 * @param registers
 	 *        the 16-bit register values, treated as unsigned values
 	 * @return the raw data, or {@literal null} if {@code registers} is
@@ -270,7 +270,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Get raw data from unsigned 16-bit values.
-	 * 
+	 *
 	 * @param registers
 	 *        the 16-bit register values, treated as unsigned values
 	 * @param dest
@@ -291,7 +291,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Get raw data from unsigned 16-bit values.
-	 * 
+	 *
 	 * @param registers
 	 *        the 16-bit register values, treated as unsigned 16-bit values
 	 * @return the raw data, or {@literal null} if {@code registers} is
@@ -312,7 +312,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Get raw data as signed 16-bit values.
-	 * 
+	 *
 	 * @param data
 	 *        the data
 	 * @return a copy of the data as an array of signed 16-bit values in
@@ -328,7 +328,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Get raw data as signed 16-bit values.
-	 * 
+	 *
 	 * @param data
 	 *        the data
 	 * @param start
@@ -348,14 +348,14 @@ public final class ModbusByteUtils {
 		}
 		short[] r = new short[(end - start) / 2];
 		for ( int i = 0, d = start; i < r.length; i++, d += 2 ) {
-			r[i] = (short) (((data[d] & 0xFF) << 8) | data[d + 1] & 0xFF);
+			r[i] = (short) (((data[d] & 0xFF) << 8) | (data[d + 1] & 0xFF));
 		}
 		return r;
 	}
 
 	/**
 	 * Get raw data as unsigned 16-bit values.
-	 * 
+	 *
 	 * @param data
 	 *        the data
 	 * @return a copy of the data as an array of unsigned 16-bit values in
@@ -372,7 +372,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Get raw data as unsigned 16-bit values.
-	 * 
+	 *
 	 * @param data
 	 *        the data
 	 * @param start
@@ -393,7 +393,7 @@ public final class ModbusByteUtils {
 		}
 		int[] r = new int[(end - start) / 2];
 		for ( int i = 0, d = start; i < r.length; i++, d += 2 ) {
-			r[i] = (((data[d] & 0xFF) << 8) | data[d + 1] & 0xFF);
+			r[i] = (((data[d] & 0xFF) << 8) | (data[d + 1] & 0xFF));
 		}
 		return r;
 	}
@@ -403,7 +403,7 @@ public final class ModbusByteUtils {
 	 * <p>
 	 * This modifies the contents of the array directly.
 	 * </p>
-	 * 
+	 *
 	 * @param data
 	 *        the data to reverse
 	 */
@@ -420,7 +420,7 @@ public final class ModbusByteUtils {
 
 	/**
 	 * Encode a 16-bit value into a byte array.
-	 * 
+	 *
 	 * @param data
 	 *        the data array
 	 * @param offset
