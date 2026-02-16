@@ -22,9 +22,11 @@
 
 package net.solarnetwork.io.modbus.shell;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -629,8 +631,9 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 			System.exit(1);
 
 		}
-		ModbusShell shell = new ModbusShell(client, new BufferedReader(new InputStreamReader(System.in)),
-				new PrintWriter(System.out, true));
+		ModbusShell shell = new ModbusShell(client,
+				new BufferedReader(new InputStreamReader(System.in, UTF_8)),
+				new PrintWriter(new OutputStreamWriter(System.out, UTF_8), true));
 		client.setConnectionObserver(shell);
 		client.setWireLogging(wireLogging);
 		shell.start();
