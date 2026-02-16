@@ -88,6 +88,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 	/**
 	 * Start the shell.
 	 */
+	@SuppressWarnings("FutureReturnValueIgnored")
 	public void start() {
 		try {
 			client.start().get();
