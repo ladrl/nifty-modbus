@@ -60,7 +60,7 @@ public class NettyRtuModbusClientConfig extends NettyModbusClientConfig
 	}
 
 	@Override
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 
@@ -71,12 +71,12 @@ public class NettyRtuModbusClientConfig extends NettyModbusClientConfig
 	 *        the name to set, for example {@literal /dev/ttyUSB0} or
 	 *        {@literal COM1}
 	 */
-	public void setName(String name) {
+	public final void setName(String name) {
 		this.name = name;
 	}
 
 	@Override
-	public SerialParameters getSerialParameters() {
+	public final SerialParameters getSerialParameters() {
 		return serialParameters;
 	}
 
@@ -86,7 +86,7 @@ public class NettyRtuModbusClientConfig extends NettyModbusClientConfig
 	 * @param serialParameters
 	 *        the serial parameters to set
 	 */
-	public void setSerialParameters(SerialParameters serialParameters) {
+	public final void setSerialParameters(SerialParameters serialParameters) {
 		this.serialParameters = serialParameters;
 	}
 
