@@ -87,6 +87,7 @@ public class SerialPortChannel extends AbstractChannel {
 	 * @throws IllegalArgumentException
 	 *         if any argument is {@literal null}
 	 */
+	@SuppressWarnings("this-escape")
 	public SerialPortChannel(SerialPortProvider serialPortProvider) {
 		super(null);
 		if ( serialPortProvider == null ) {
