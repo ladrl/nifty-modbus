@@ -29,6 +29,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -105,7 +106,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 					continue;
 				}
 				String[] args = SHELL_LINE_SPLIT_REGEX.split(line);
-				String cmd = args[0].toLowerCase();
+				String cmd = args[0].toLowerCase(Locale.ENGLISH);
 				switch (cmd) {
 					case "e":
 					case "q":
@@ -155,7 +156,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 			out.println("Must provide register type to read from (coil, discrete, input, holding).");
 			return;
 		}
-		final String type = args[1].toLowerCase();
+		final String type = args[1].toLowerCase(Locale.ENGLISH);
 		ModbusBlockType blockType = null;
 		switch (type) {
 			case "c":
@@ -324,7 +325,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 			out.println("Must provide register type to write to (coil, discrete, input, holding).");
 			return;
 		}
-		final String type = args[1].toLowerCase();
+		final String type = args[1].toLowerCase(Locale.ENGLISH);
 		ModbusBlockType blockType = null;
 		switch (type) {
 			case "c":
@@ -373,7 +374,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 
 					default:
 						try {
-							if ( args[i].toLowerCase().startsWith("0x") ) {
+							if ( args[i].toLowerCase(Locale.ENGLISH).startsWith("0x") ) {
 								values.add(new BigInteger(args[i].substring(2), 16).shortValue());
 							} else {
 								values.add(Integer.valueOf(args[i]).shortValue());
