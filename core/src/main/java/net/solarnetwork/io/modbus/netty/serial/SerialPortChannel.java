@@ -427,6 +427,7 @@ public class SerialPortChannel extends AbstractChannel {
 
 	private final class SerialUnsafe extends AbstractUnsafe {
 
+		@SuppressWarnings("FutureReturnValueIgnored")
 		@Override
 		public void connect(final SocketAddress remoteAddress, final SocketAddress localAddress,
 				final ChannelPromise promise) {

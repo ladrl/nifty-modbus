@@ -178,6 +178,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 			Channel channel = bootstrap.connect().sync().channel();
 			channel.closeFuture().addListener(new ChannelFutureListener() {
 
+				@SuppressWarnings("FutureReturnValueIgnored")
 				@Override
 				public void operationComplete(ChannelFuture future) throws Exception {
 					final EventLoopGroup group = eventLoopGroup;
@@ -223,6 +224,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	/**
 	 * Stop the server.
 	 */
+	@SuppressWarnings("FutureReturnValueIgnored")
 	public synchronized void stop() {
 		if ( privateEventLoopGroup && eventLoopGroup != null ) {
 			eventLoopGroup.shutdownGracefully();
@@ -249,6 +251,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	/**
 	 * Handler for client connections.
 	 */
+	@SuppressWarnings("FutureReturnValueIgnored")
 	private final class Handler extends SimpleChannelInboundHandler<ModbusMessage> {
 
 		@Override

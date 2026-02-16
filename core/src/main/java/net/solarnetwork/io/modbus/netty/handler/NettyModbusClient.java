@@ -188,16 +188,16 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 			scheduler = Executors.newSingleThreadScheduledExecutor();
 		}
 		CompletableFuture<?> result = handleConnect(false);
-		connFuture = result;
 		if ( cleanupTask == null ) {
 			long period = getPendingMessageTtl() * 2;
 			if ( period > 0 ) {
-				result.thenRun(() -> {
+				result = result.thenRun(() -> {
 					cleanupTask = scheduler.scheduleWithFixedDelay(new PendingMessageExpiredCleaner(),
 							period, period, TimeUnit.MILLISECONDS);
 				});
 			}
 		}
+		connFuture = result;
 		return result;
 	}
 
@@ -272,6 +272,7 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 		return completable;
 	}
 
+	@SuppressWarnings("FutureReturnValueIgnored")
 	private void handleCloseAndScheduleReconnectIfRequired(boolean reconnecting) {
 		if ( clientConfig.isAutoReconnect() && !stopped ) {
 			try {
