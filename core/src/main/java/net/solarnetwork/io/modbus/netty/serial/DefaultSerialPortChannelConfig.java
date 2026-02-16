@@ -91,7 +91,7 @@ public class DefaultSerialPortChannelConfig extends DefaultChannelConfig
 				RS485_BEFORE_SEND_DELAY, RS485_AFTER_SEND_DELAY);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "ReferenceEquality" })
 	@Override
 	public <T> T getOption(ChannelOption<T> option) {
 		if ( option == BAUD_RATE ) {
@@ -137,7 +137,7 @@ public class DefaultSerialPortChannelConfig extends DefaultChannelConfig
 		return super.getOption(option);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "ReferenceEquality" })
 	@Override
 	public <T> boolean setOption(ChannelOption<T> option, T value) {
 		validate(option, value);
