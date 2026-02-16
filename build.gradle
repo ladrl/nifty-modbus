@@ -8,6 +8,7 @@ buildscript {
 
 plugins {
 	id "com.vanniktech.maven.publish" version "0.34.0"
+	id 'net.ltgt.errorprone' version '4.2.0' apply false
 }
 
 ext {
@@ -29,6 +30,7 @@ ext {
 allprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
+	apply plugin: 'net.ltgt.errorprone'
 
     repositories {
         mavenCentral()
@@ -46,7 +48,7 @@ subprojects {
 
 	java {
 		toolchain {
-	        languageVersion = JavaLanguageVersion.of(8)
+	        languageVersion = JavaLanguageVersion.of(25)
 	    }
 	}
 
@@ -58,6 +60,7 @@ subprojects {
 		compileJava,
 		compileTestJava
 	].each() {
+		it.options.release = 8
 		it.options.compilerArgs += [
 			"-Xlint:all",
 			"-Xlint:-options",
@@ -70,10 +73,15 @@ subprojects {
 		}
 	}
 
+	compileJava {
+		it.options.errorprone.enabled = !(rootProject.hasProperty('errorProneDisabled') && rootProject.errorProneDisabled.toBoolean());
+	}
+
 	compileTestJava {
 		options.compilerArgs += [
 			"-Xlint:-serial"
 		]
+		it.options.errorprone.enabled = (rootProject.hasProperty('errorProneEnabledTest') && rootProject.errorProneEnabledTest.toBoolean());
 	}
 
 	jar.manifest {
@@ -92,6 +100,7 @@ subprojects {
 
 	dependencies {
 		testImplementation libraries.hamcrest
+		errorprone 'com.google.errorprone:error_prone_core:2.45.0'
 	}
 
 	allprojects {
