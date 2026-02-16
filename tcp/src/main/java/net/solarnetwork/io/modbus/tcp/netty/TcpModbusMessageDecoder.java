@@ -104,23 +104,23 @@ public class TcpModbusMessageDecoder extends ReplayingDecoder<DecoderState> {
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 		switch (state()) {
 			case READ_FIXED_HEADER:
-				readFixedHeader(ctx, in);
+				readFixedHeader(in);
 				break;
 
 			case READ_PAYLOAD:
-				readPayload(ctx, in, out);
+				readPayload(in, out);
 				break;
 		}
 	}
 
-	private void readFixedHeader(ChannelHandlerContext ctx, ByteBuf in) {
+	private void readFixedHeader(ByteBuf in) {
 		transactionId = in.readUnsignedShort();
 		in.skipBytes(4); // just assuming is 0 for TCP, and we don't mind about payload length bytes
 		unitId = in.readUnsignedByte();
 		checkpoint(DecoderState.READ_PAYLOAD);
 	}
 
-	private void readPayload(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
+	private void readPayload(ByteBuf in, List<Object> out) {
 		ModbusMessage msg = null;
 		try {
 			if ( controller ) {
@@ -142,8 +142,7 @@ public class TcpModbusMessageDecoder extends ReplayingDecoder<DecoderState> {
 				}
 			} else {
 				// inbound request
-				ModbusMessage payload = null;
-				payload = ModbusMessageUtils.decodeRequestPayload(unitId, 0, 0, in);
+				ModbusMessage payload = ModbusMessageUtils.decodeRequestPayload(unitId, 0, 0, in);
 				if ( payload != null ) {
 					TcpModbusMessage req = new TcpModbusMessage(System.currentTimeMillis(),
 							transactionId, payload);

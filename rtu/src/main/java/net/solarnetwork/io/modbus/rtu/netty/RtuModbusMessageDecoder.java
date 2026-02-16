@@ -91,7 +91,7 @@ public class RtuModbusMessageDecoder extends ReplayingDecoder<DecoderState> {
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 		switch (state()) {
 			case READ_FIXED_HEADER:
-				readFixedHeader(ctx, in);
+				readFixedHeader(in);
 				break;
 
 			case READ_PAYLOAD:
@@ -106,7 +106,7 @@ public class RtuModbusMessageDecoder extends ReplayingDecoder<DecoderState> {
 		}
 	}
 
-	private void readFixedHeader(ChannelHandlerContext ctx, ByteBuf in) {
+	private void readFixedHeader(ByteBuf in) {
 		unitId = in.readUnsignedByte();
 		checkpoint(DecoderState.READ_PAYLOAD);
 	}

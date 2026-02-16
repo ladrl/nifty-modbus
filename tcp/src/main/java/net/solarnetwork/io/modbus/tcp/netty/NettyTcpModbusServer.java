@@ -217,6 +217,7 @@ public class NettyTcpModbusServer {
 			Channel channel = bootstrap.bind(bindAddress, port).sync().channel();
 			channel.closeFuture().addListener(new ChannelFutureListener() {
 
+				@SuppressWarnings("FutureReturnValueIgnored")
 				@Override
 				public void operationComplete(ChannelFuture future) throws Exception {
 					wGroup.shutdownGracefully();
@@ -246,6 +247,7 @@ public class NettyTcpModbusServer {
 	/**
 	 * Stop the server.
 	 */
+	@SuppressWarnings("FutureReturnValueIgnored")
 	public synchronized void stop() {
 		if ( workerGroup != null ) {
 			workerGroup.shutdownGracefully();
@@ -285,6 +287,7 @@ public class NettyTcpModbusServer {
 	/**
 	 * Handler for client connections.
 	 */
+	@SuppressWarnings("FutureReturnValueIgnored")
 	private final class ChildHandler extends SimpleChannelInboundHandler<ModbusMessage> {
 
 		@Override
