@@ -96,7 +96,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 		try {
 			client.start().get();
 			Thread.sleep(200);
-			while ( true && client.isConnected() ) {
+			while ( client.isConnected() ) {
 				out.print("> ");
 				out.flush();
 				String line = in.readLine();
