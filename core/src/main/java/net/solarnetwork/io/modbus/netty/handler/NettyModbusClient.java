@@ -556,7 +556,7 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 					}
 				}
 			} catch ( Exception e ) {
-				log.warn("Exception cleaning expired pending Modbus requests: {}", e.toString(), e);
+				log.warn("Exception cleaning expired pending Modbus requests: {}", e, e);
 			} finally {
 				if ( expiredCount < 1 ) {
 					log.debug("Finished cleaning expired pending Modbus requests; none expired.");

@@ -101,7 +101,7 @@ public class JscSerialPort implements net.solarnetwork.io.modbus.serial.SerialPo
 			} catch ( Exception e2 ) {
 				// ignore this
 			}
-			throw new IOException("Error opening serial port [" + name + "]:" + e.toString(), e);
+			throw new IOException("Error opening serial port [" + name + "]:" + e, e);
 		}
 	}
 

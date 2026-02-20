@@ -135,7 +135,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 			Throwable t = e.getCause();
 			out.printf("Error opening connection to [%s]: %s", client.getClientConfig(), t.getMessage());
 		} catch ( IOException e ) {
-			out.println("Communication error: " + e.toString());
+			out.println("Communication error: " + e);
 		} finally {
 			client.stop();
 		}
