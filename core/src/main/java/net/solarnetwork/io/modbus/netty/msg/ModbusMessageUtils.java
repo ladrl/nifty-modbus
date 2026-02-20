@@ -100,7 +100,10 @@ public final class ModbusMessageUtils {
 				// fn, addr, count/value
 				return 5;
 
+			case GetCommEventCounter:
+			case GetCommEventLog:
 			case ReadExceptionStatus:
+			case ReportServerId:
 				return 1;
 
 			case Diagnostics: {
@@ -116,11 +119,6 @@ public final class ModbusMessageUtils {
 				// all published message have single 16-bit value
 				return 5;
 			}
-
-			case GetCommEventCounter:
-			case GetCommEventLog:
-			case ReportServerId:
-				return 1;
 
 			case WriteCoils:
 			case WriteHoldingRegisters:
