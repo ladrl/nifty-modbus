@@ -273,7 +273,6 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 		if ( error != null ) {
 			return new BaseModbusMessage(unitId, function, error);
 		}
-		int addr = address;
 		int cnt = count;
 		byte[] data = null;
 		if ( function != null ) {
@@ -292,7 +291,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 					return null;
 			}
 		}
-		return new ReadWriteRegistersModbusMessage(unitId, fn, error, addr, cnt, data);
+		return new ReadWriteRegistersModbusMessage(unitId, fn, error, address, cnt, data);
 	}
 
 	private boolean isResponse(final byte[] data) {
