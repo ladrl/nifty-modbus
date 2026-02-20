@@ -36,7 +36,7 @@ import net.solarnetwork.io.modbus.netty.serial.SerialPortChannelOption;
  */
 public class SerialPortChannelOptionTests {
 
-	private class TestOption<T> extends SerialPortChannelOption<T> {
+	private static class TestOption<T> extends SerialPortChannelOption<T> {
 
 		private TestOption() {
 			super();
