@@ -152,7 +152,7 @@ public class ModbusMessageTests {
 		ModbusMessage validated = assertDoesNotThrow(() -> {
 			return msg.validate();
 		}, "Default validation does not throw any exception.");
-		assertThat("Vaildated is same instance", validated, is(sameInstance(msg)));
+		assertThat("Validated is same instance", validated, is(sameInstance(msg)));
 	}
 
 }

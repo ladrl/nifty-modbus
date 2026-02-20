@@ -40,7 +40,7 @@ try {
 ```
 
 The above snippet was taken from the [TcpClientReadRegistersExample][ex-tcp-client] class. See the
-[examples project](examples/) project for more samples.
+[examples project](examples/) for more samples.
 
 
 # Modbus Shell

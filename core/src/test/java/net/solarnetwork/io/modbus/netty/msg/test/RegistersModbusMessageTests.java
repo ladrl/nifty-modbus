@@ -64,7 +64,7 @@ public class RegistersModbusMessageTests {
 	public void construct_odd() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			new RegistersModbusMessage(1, READ_HOLDING_REGISTERS, 0, 1, new byte[] { 1 });
-		}, "Not allowed to constrct with an odd-length data array");
+		}, "Not allowed to construct with an odd-length data array");
 
 	}
 

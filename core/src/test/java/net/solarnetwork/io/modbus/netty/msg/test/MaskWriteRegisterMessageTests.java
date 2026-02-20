@@ -267,7 +267,7 @@ public class MaskWriteRegisterMessageTests {
 	}
 
 	@Test
-	public void decodeResponesPayload_unsupported() {
+	public void decodeResponsePayload_unsupported() {
 		// GIVEN
 		// @formatter:off
 		final byte fn = ModbusFunctionCodes.READ_COILS;
@@ -324,7 +324,7 @@ public class MaskWriteRegisterMessageTests {
 
 		// THEN
 		assertThat("And mask decoded from data", msg.getAndMask(), is(equalTo(0x0102)));
-		assertThat("Or mask decoded frmo data", msg.getOrMask(), is(equalTo(0x0304)));
+		assertThat("Or mask decoded from data", msg.getOrMask(), is(equalTo(0x0304)));
 	}
 
 	@Test

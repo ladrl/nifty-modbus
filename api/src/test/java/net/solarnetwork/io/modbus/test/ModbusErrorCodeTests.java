@@ -35,7 +35,7 @@ import net.solarnetwork.io.modbus.ModbusErrorCodes;
 import net.solarnetwork.io.modbus.UserModbusError;
 
 /**
- * Test cases for the {@link ModbudErrorCode} class.
+ * Test cases for the {@link ModbusErrorCode} class.
  *
  * @author matt
  * @version 1.0

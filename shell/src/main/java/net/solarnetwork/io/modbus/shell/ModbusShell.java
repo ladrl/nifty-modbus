@@ -73,7 +73,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 	 * Constructor.
 	 *
 	 * @param client
-	 *        the cleint to use
+	 *        the client to use
 	 * @param in
 	 *        the input stream for shell input
 	 * @param out

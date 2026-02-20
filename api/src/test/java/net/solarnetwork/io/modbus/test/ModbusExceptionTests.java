@@ -76,7 +76,7 @@ public class ModbusExceptionTests {
 	}
 
 	@Test
-	public void construct_messageAndcause() {
+	public void construct_messageAndCause() {
 		// GIVEN
 		final String m = UUID.randomUUID().toString();
 		final Throwable t = new Throwable();

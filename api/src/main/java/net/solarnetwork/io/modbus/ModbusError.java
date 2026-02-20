@@ -40,8 +40,8 @@ public interface ModbusError {
 	/**
 	 * Get this error as a {@link ModbusErrorCode}.
 	 * 
-	 * @return the error code enumeration value, or {@literal null} if cannot be
-	 *         represented as one
+	 * @return the error code enumeration value, or {@code null} if the code
+	 *         cannot be represented as one
 	 */
 	default ModbusErrorCode errorCode() {
 		try {

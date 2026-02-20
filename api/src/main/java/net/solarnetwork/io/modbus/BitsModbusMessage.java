@@ -74,7 +74,7 @@ public interface BitsModbusMessage extends AddressedModbusMessage {
 	}
 
 	/**
-	 * Get a {@code BitSet} value for the bits data.
+	 * Get a {@code BitSet} value for the bit data.
 	 * 
 	 * @return the new set, or {@literal null} if {@link #getBits()} returns
 	 *         {@literal null}

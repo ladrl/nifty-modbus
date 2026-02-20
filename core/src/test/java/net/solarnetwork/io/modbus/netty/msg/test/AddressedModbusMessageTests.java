@@ -80,7 +80,7 @@ public class AddressedModbusMessageTests {
 		assertThat("Function saved", msg.getFunction(), is(equalTo(ModbusFunctionCode.ReadCoils)));
 		assertThat("Error saved", msg.getError(), is(equalTo(ModbusErrorCode.IllegalDataAddress)));
 		assertThat("Negative address forced to zero", msg.getAddress(), is(equalTo(0)));
-		assertThat("Negative ount forced to zero", msg.getCount(), is(equalTo(0)));
+		assertThat("Negative count forced to zero", msg.getCount(), is(equalTo(0)));
 	}
 
 	@Test

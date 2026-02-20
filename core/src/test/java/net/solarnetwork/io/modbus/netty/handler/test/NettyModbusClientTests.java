@@ -511,12 +511,12 @@ public class NettyModbusClientTests {
 
 			long execTime = executionTimes.get(i);
 			if ( i == 0 || i == 2 ) {
-				// last execution time should be negligable
+				// last execution time should be negligible
 				assertThat(
 						"First execution time, or after manual delay, should be close to 0 (within 200ms)",
 						execTime, is(lessThan(200L)));
 			} else if ( i == 1 ) {
-				assertThat("Execution time immeidately after send must be roughly delay (within 200ms)",
+				assertThat("Execution time immediately after send must be roughly delay (within 200ms)",
 						sendDelay - execTime, is(lessThan(200L)));
 			}
 		}
@@ -592,8 +592,8 @@ public class NettyModbusClientTests {
 
 		// THEN
 		assertThat("Client has been stopped", testClient.isStarted(), is(equalTo(false)));
-		assertThat("Opened callabck called", openCount.get(), is(equalTo(1)));
-		assertThat("Opened callabck called", closeCount.get(), is(equalTo(1)));
+		assertThat("Opened callback called", openCount.get(), is(equalTo(1)));
+		assertThat("Opened callback called", closeCount.get(), is(equalTo(1)));
 	}
 
 	@Test

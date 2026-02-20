@@ -33,14 +33,14 @@ public interface MaskWriteRegisterModbusMessage extends RegistersModbusMessage {
 	/**
 	 * Get the 16-bit logical <em>and</em> mask value.
 	 * 
-	 * @return the and mask
+	 * @return the {@code and} mask
 	 */
 	int getAndMask();
 
 	/**
 	 * Get the 16-bit logical <em>or</em> mask value.
 	 * 
-	 * @return the or mask
+	 * @return the {@code or} mask
 	 */
 	int getOrMask();
 

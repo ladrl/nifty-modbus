@@ -95,7 +95,7 @@ public final class Server {
 	 * requests.
 	 * 
 	 * <p>
-	 * This example uses a simple {@code Map} as the holding registers
+	 * This example uses a simple {@code Map} as the holding register
 	 * repository.
 	 * </p>
 	 * 

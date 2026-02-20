@@ -353,7 +353,7 @@ public class RegistersModbusMessage extends AddressedModbusMessage
 			throw new IllegalArgumentException("Count read must be provided.");
 		} else if ( count > MAX_READ_FIFO_QUEUE_COUNT ) {
 			throw new IllegalArgumentException(
-					String.format("Can only read up to %d FIFO queue values, but %d provded.",
+					String.format("Can only read up to %d FIFO queue values, but %d provided.",
 							MAX_READ_FIFO_QUEUE_COUNT, count));
 		}
 		byte[] data = ModbusByteUtils.encode(values);

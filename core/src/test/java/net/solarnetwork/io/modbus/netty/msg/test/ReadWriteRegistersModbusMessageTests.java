@@ -278,7 +278,7 @@ public class ReadWriteRegistersModbusMessageTests {
 	}
 
 	@Test
-	public void decodeResponesPayload_unsupported() {
+	public void decodeResponsePayload_unsupported() {
 		// GIVEN
 		// @formatter:off
 		final byte fn = ModbusFunctionCodes.READ_COILS;

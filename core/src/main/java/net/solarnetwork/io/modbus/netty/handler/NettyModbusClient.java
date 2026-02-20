@@ -520,7 +520,7 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 		/**
 		 * Get the future awaiting the response.
 		 * 
-		 * @return the future the future
+		 * @return the future
 		 */
 		public CompletableFuture<ModbusMessage> getFuture() {
 			return future;

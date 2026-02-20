@@ -524,7 +524,7 @@ public class ModbusByteUtilsTests {
 	}
 
 	@Test
-	public void computeCrc_range_cutshort() {
+	public void computeCrc_range_cutShort() {
 		// GIVEN
 		final byte[] data = new byte[] { 0x01, 0x04, 0x02, (byte) 0xFF, (byte) 0xFF };
 		assertThat("CRC computed range", ModbusByteUtils.computeCrc(data, 0, 99),

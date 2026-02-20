@@ -132,7 +132,7 @@ public class TcpNettyModbusClient_ServerTests {
 		ExecutionException e = assertThrows(ExecutionException.class, () -> {
 			c.start().get();
 		}, "Starting client with null host throws ExecutionException");
-		assertThat("Cause is IllegalArgumentExcpetion", e.getCause(),
+		assertThat("Cause is IllegalArgumentException", e.getCause(),
 				is(instanceOf(IllegalArgumentException.class)));
 	}
 

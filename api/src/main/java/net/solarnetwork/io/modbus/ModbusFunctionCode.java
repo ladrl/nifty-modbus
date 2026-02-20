@@ -101,7 +101,7 @@ public enum ModbusFunctionCode implements ModbusFunction {
 	/** Get the communication event counter. */
 	GetCommEventCounter(GET_COMM_EVENT_COUNTER, ModbusBlockType.Diagnostic, true),
 
-	/** The the communication event log. */
+	/** Get the communication event log. */
 	GetCommEventLog(GET_COMM_EVENT_LOG, ModbusBlockType.Diagnostic, true),
 
 	/** Get the report server ID. */

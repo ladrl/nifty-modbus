@@ -103,7 +103,7 @@ public class RtuModbusMessageTests {
 		ModbusMessage validated = assertDoesNotThrow(() -> {
 			return rtu.validate();
 		}, "No exception thrown when CRC is valid");
-		assertThat("Vaildated is same instance", validated, is(sameInstance(rtu)));
+		assertThat("Validated is same instance", validated, is(sameInstance(rtu)));
 	}
 
 	@Test

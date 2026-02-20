@@ -45,8 +45,8 @@ public interface ModbusFunction {
 	/**
 	 * Get this function as a {@link ModbusFunctionCode}.
 	 * 
-	 * @return the function code enumeration value, or {@literal null} if cannot
-	 *         be represented as one
+	 * @return the function code enumeration value, or {@code null} if the code
+	 *         cannot be represented as one
 	 */
 	default ModbusFunctionCode functionCode() {
 		try {

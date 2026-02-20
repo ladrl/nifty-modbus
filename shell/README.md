@@ -92,7 +92,7 @@ a `src/main/resources/logback.xml` file to configure Logback logging.
 
 You can enable "wire" logging to see detailed information about all Modbus messages sent and
 received. The logger used is named like `net.solarnetwork.io.modbus.DEVICE` where `DEVICE` is the
-serial device name. It logs to the `DEBUG` level. Additionally you must pass the `--debug` argument
+serial device name. It logs to the `DEBUG` level. Additionally, you must pass the `--debug` argument
 to the application.
 
 Here's an example `logback.xml` that enables wire logging of the `/dev/tty.*` type of devices to the

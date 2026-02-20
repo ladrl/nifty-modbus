@@ -79,7 +79,7 @@ public class PendingMessageTests {
 		PendingMessage pending = new PendingMessage(msg, future);
 
 		// THEN
-		assertThat("Request provded", pending.getRequest(), is(sameInstance(msg)));
+		assertThat("Request provided", pending.getRequest(), is(sameInstance(msg)));
 		assertThat("Future provided", pending.getFuture(), is(sameInstance(future)));
 		assertThat("Created roughly now", pending.getCreated() - now, is(lessThanOrEqualTo(100L)));
 	}

@@ -35,10 +35,10 @@ public interface SerialParameters {
 	/** A default baud rate. */
 	int DEFAULT_BAUD_RATE = 115200;
 
-	/** The default stopbits value. */
+	/** The default stop bits value. */
 	SerialStopBits DEFAULT_STOP_BITS = SerialStopBits.One;
 
-	/** The default databits value. */
+	/** The default data bits value. */
 	int DEFAULT_DATA_BITS = 8;
 
 	/** The default parity value. */

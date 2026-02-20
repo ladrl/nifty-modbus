@@ -42,7 +42,7 @@ contains dot characters, cannot so easily be provided this way):
  * `ORG_GRADLE_PROJECT_ossrhUsername` - the username
  * `ORG_GRADLE_PROJECT_ossrhPassword` - the password
 
-For example you could create a small shell script `nifty-publish.env`:
+For example, you could create a small shell script `nifty-publish.env`:
 
 ```sh
 export ORG_GRADLE_PROJECT_ossrhUsername="my username"

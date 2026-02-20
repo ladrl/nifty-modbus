@@ -23,7 +23,7 @@
 package net.solarnetwork.io.modbus.serial;
 
 /**
- * Enumeration of serial "stopbit" settings.
+ * Enumeration of serial "stop bit" settings.
  *
  * @author matt
  * @version 1.0
@@ -86,7 +86,7 @@ public enum SerialStopBits {
 				return SerialStopBits.Two;
 
 			default:
-				throw new IllegalArgumentException("Unknown serial stopbits code [" + code + "]");
+				throw new IllegalArgumentException("Unknown serial stop bits code [" + code + "]");
 		}
 	}
 

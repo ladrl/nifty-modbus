@@ -191,7 +191,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 			throw new IllegalArgumentException("Count read must be provided.");
 		} else if ( count > MAX_READ_REGISTERS_COUNT ) {
 			throw new IllegalArgumentException(
-					String.format("Can only read up to %d registers, but %d provded.",
+					String.format("Can only read up to %d registers, but %d provided.",
 							MAX_READ_REGISTERS_COUNT, count));
 		}
 		byte[] data = new byte[2 + count * 2];
