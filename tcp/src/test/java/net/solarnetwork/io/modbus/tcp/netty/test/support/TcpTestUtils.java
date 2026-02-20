@@ -43,21 +43,11 @@ public final class TcpTestUtils {
 	 * @return the free port
 	 */
 	public static int freePort() {
-		ServerSocket socket = null;
-		try {
-			socket = new ServerSocket(0);
+		try (ServerSocket socket = new ServerSocket(0)) {
 			socket.setReuseAddress(true);
 			return socket.getLocalPort();
 		} catch ( IOException e ) {
 			throw new RuntimeException(e);
-		} finally {
-			try {
-				if ( socket != null ) {
-					socket.close();
-				}
-			} catch ( IOException e ) {
-				// ignore
-			}
 		}
 	}
 
