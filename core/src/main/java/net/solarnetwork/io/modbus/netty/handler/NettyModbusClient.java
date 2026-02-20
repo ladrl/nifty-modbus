@@ -320,9 +320,9 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 		if ( sendMinimumDelayMs < 1 ) {
 			return;
 		}
-		long now = 0;
-		long expire = 0;
-		long last = 0;
+		long now;
+		long expire;
+		long last;
 		do {
 			now = System.currentTimeMillis();
 			last = lastSendDate.get();
@@ -420,7 +420,7 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 
 		@Override
 		protected void channelRead0(ChannelHandlerContext ctx, ModbusMessage msg) throws Exception {
-			ModbusMessage req = null;
+			ModbusMessage req;
 			ModbusMessageReply reply = msg.unwrap(ModbusMessageReply.class);
 			if ( reply != null ) {
 				req = reply.getRequest();

@@ -326,7 +326,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	public void encodeModbusPayload(ByteBuf out) {
 		final ModbusFunctionCode fn = getFunction().functionCode();
 		final int count = getCount();
-		byte[] header = null;
+		byte[] header;
 		final byte[] data_src = data();
 		byte[] data;
 		if ( isResponse(data_src) ) {

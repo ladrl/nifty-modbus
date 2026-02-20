@@ -94,7 +94,7 @@ public final class ModbusByteUtils {
 	public static short computeCrc(byte[] data, int start, int end) {
 		int hi = 0xFF;
 		int lo = 0xFF;
-		int next = 0;
+		int next;
 		int uIndex;
 		for ( int i = start, len = data.length; i < end && i < len; i++ ) {
 			next = 0xFF & data[i];

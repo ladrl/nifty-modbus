@@ -86,7 +86,7 @@ public final class ModbusTestUtils {
 	 */
 	public static List<byte[]> parseWireLogLines(BufferedReader in, Function<String, byte[]> hexDecoder)
 			throws IOException {
-		String line = null;
+		String line;
 		List<byte[]> result = new ArrayList<>(8);
 		while ( (line = in.readLine()) != null ) {
 			Matcher m = WIRE_LOG_LINE_PATTERN.matcher(line);

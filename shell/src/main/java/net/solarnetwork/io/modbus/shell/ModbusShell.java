@@ -159,7 +159,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 			return;
 		}
 		final String type = args[1].toLowerCase(Locale.ENGLISH);
-		ModbusBlockType blockType = null;
+		ModbusBlockType blockType;
 		switch (type) {
 			case "c":
 			case "coil":
@@ -328,7 +328,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 			return;
 		}
 		final String type = args[1].toLowerCase(Locale.ENGLISH);
-		ModbusBlockType blockType = null;
+		ModbusBlockType blockType;
 		switch (type) {
 			case "c":
 			case "coil":

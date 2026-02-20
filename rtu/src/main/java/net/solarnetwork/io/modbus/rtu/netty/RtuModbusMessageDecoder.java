@@ -112,9 +112,9 @@ public class RtuModbusMessageDecoder extends ReplayingDecoder<DecoderState> {
 	}
 
 	private void readPayload(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
-		ModbusMessage msg = null;
+		ModbusMessage msg;
 		ModbusMessage req = null;
-		AddressedModbusMessage reqAddr = null;
+		AddressedModbusMessage reqAddr;
 		if ( controller ) {
 			// inbound response
 			int len = ModbusMessageUtils.discoverResponsePayloadLength(in);

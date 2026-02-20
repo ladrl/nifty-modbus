@@ -41,7 +41,7 @@ public class RtuModbusMessageEncoder extends MessageToMessageEncoder<ModbusMessa
 	@Override
 	protected void encode(ChannelHandlerContext ctx, ModbusMessage msg, List<Object> out)
 			throws Exception {
-		RtuModbusMessage rtu = null;
+		RtuModbusMessage rtu;
 		if ( msg instanceof RtuModbusMessage ) {
 			rtu = (RtuModbusMessage) msg;
 		} else {

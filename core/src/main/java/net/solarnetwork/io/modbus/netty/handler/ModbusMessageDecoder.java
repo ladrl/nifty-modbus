@@ -75,7 +75,7 @@ public class ModbusMessageDecoder extends ByteToMessageDecoder {
 			return;
 		}
 		try {
-			ModbusMessage msg = null;
+			ModbusMessage msg;
 			if ( controller ) {
 				// inbound response
 				msg = ModbusMessageUtils.decodeResponsePayload(in);
