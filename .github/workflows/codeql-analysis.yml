@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'java' ]
-        java: [17]
+        java: [25]
 
     steps:
     - name: Checkout repository
