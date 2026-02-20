@@ -115,7 +115,6 @@ public class SerialPortChannelTests {
 	public void construct_null() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			new SerialPortChannel(null);
-			;
 		}, "Null argument is not allowed");
 	}
 
