@@ -113,7 +113,7 @@ public class PjcSerialPort implements net.solarnetwork.io.modbus.serial.SerialPo
 			log.debug("Port {} not found, inspecting available ports...", portId);
 		}
 		Enumeration<CommPortIdentifier> portIdentifiers = CommPortIdentifier.getPortIdentifiers();
-		List<String> foundNames = new ArrayList<String>(5);
+		List<String> foundNames = new ArrayList<>(5);
 		while ( portIdentifiers.hasMoreElements() ) {
 			CommPortIdentifier commPort = portIdentifiers.nextElement();
 			log.trace("Inspecting available port identifier: {}", commPort.getName());
