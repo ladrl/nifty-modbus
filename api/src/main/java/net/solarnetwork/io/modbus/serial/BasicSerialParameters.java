@@ -67,7 +67,7 @@ public class BasicSerialParameters implements SerialParameters {
 			builder.append(", readTimeout=");
 			builder.append(readTimeout);
 		}
-		if ( rs485ModeEnabled != null && rs485ModeEnabled.booleanValue() ) {
+		if ( rs485ModeEnabled != null && rs485ModeEnabled ) {
 			builder.append(", RS-485");
 			String flags = rs485Flags();
 			if ( flags != null ) {

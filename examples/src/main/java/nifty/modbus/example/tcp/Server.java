@@ -121,7 +121,7 @@ public final class Server {
 						idx = 0; i < max; i++, idx++ ) {
 					Short r = holdingRegisters.get(i);
 					if ( r != null ) {
-						resultData[idx] = r.shortValue();
+						resultData[idx] = r;
 					}
 				}
 				sender.accept(readHoldingsResponse(req.getUnitId(), req.getAddress(), resultData));

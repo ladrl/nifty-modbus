@@ -160,7 +160,7 @@ public class JscSerialPort implements net.solarnetwork.io.modbus.serial.SerialPo
 		serialPort.setFlowControl(flowControlMode(serialParams.getFlowControl()));
 
 		if ( serialParams.getRs485ModeEnabled() != null ) {
-			serialPort.setRs485ModeParameters(serialParams.getRs485ModeEnabled().booleanValue(),
+			serialPort.setRs485ModeParameters(serialParams.getRs485ModeEnabled(),
 					serialParams.isRs485RtsHighEnabled(), serialParams.isRs485TerminationEnabled(),
 					serialParams.isRs485EchoEnabled(), serialParams.getRs485BeforeSendDelay(),
 					serialParams.getRs485AfterSendDelay());

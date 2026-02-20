@@ -422,7 +422,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 			case Coil: {
 				BigInteger bits = BigInteger.ZERO;
 				for ( int i = 0; i < count; i++ ) {
-					if ( values.get(i).shortValue() == (short) 1 ) {
+					if ( values.get(i) == (short) 1 ) {
 						bits = bits.setBit(i);
 					}
 				}
