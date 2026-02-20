@@ -112,8 +112,7 @@ public class JscSerialPort implements net.solarnetwork.io.modbus.serial.SerialPo
 				: SerialParameters.DEFAULT_PARITY);
 		if ( log.isDebugEnabled() ) {
 			log.debug("Setting serial port [{}] baud = {}, dataBits = {}, stopBits = {}, parity = {}",
-					new Object[] { name, serialParams.getBaudRate(), serialParams.getDataBits(),
-							stopBits, parity });
+					name, serialParams.getBaudRate(), serialParams.getDataBits(), stopBits, parity);
 		}
 
 		int stopBitsCode;
