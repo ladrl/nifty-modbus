@@ -193,7 +193,7 @@ public enum SerialFlowControl {
 					"Unknown serial flow control abbreviation [" + value + "]");
 		}
 		EnumSet<SerialFlowControl> enumResult = EnumSet.copyOf(result);
-		if ( enumResult.size() > 1 && enumResult.contains(None) ) {
+		if ( enumResult.size() > 1 ) {
 			// remove None
 			enumResult.remove(None);
 		}
