@@ -66,13 +66,6 @@ public class SerialPortChannel extends AbstractChannel {
 	private OutputStream serialPortOut;
 
 	boolean readPending;
-	private final Runnable readTask = new Runnable() {
-
-		@Override
-		public void run() {
-			doRead();
-		}
-	};
 
 	/**
 	 * Constructor.
@@ -212,7 +205,7 @@ public class SerialPortChannel extends AbstractChannel {
 			return;
 		}
 		readPending = true;
-		eventLoop().execute(readTask);
+		eventLoop().execute(this::doRead);
 	}
 
 	private InputStream serialIn() throws IOException {
