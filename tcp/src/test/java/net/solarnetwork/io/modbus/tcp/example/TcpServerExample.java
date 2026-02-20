@@ -48,6 +48,7 @@ public class TcpServerExample {
 		if ( args == null || args.length < 2 ) {
 			System.err.println("Must provide the the --port [port] arguments.");
 			System.exit(1);
+			return;
 		}
 
 		//

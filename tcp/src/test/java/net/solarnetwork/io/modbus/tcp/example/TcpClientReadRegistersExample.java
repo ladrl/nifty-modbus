@@ -47,6 +47,7 @@ public class TcpClientReadRegistersExample {
 		if ( args == null || args.length < 2 ) {
 			System.err.println("Must provide the the --host [host] arguments.");
 			System.exit(1);
+			return;
 		}
 
 		//

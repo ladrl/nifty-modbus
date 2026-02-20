@@ -629,6 +629,7 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 			System.err.println(
 					"Must provide either --device or --host argument for the Modbus device to connect to.");
 			System.exit(1);
+			return;
 
 		}
 		ModbusShell shell = new ModbusShell(client,
