@@ -76,10 +76,10 @@ public class TcpNettyModbusClient_ServerTests {
 
 	private ConcurrentMap<ModbusMessage, PendingMessage> pending;
 	private ConcurrentMap<Integer, TcpModbusMessage> pendingMessages;
-	private AtomicInteger idSupplier = new AtomicInteger();
+	private final AtomicInteger idSupplier = new AtomicInteger();
 	private TcpNettyModbusClient client;
 
-	private AtomicInteger serverIdSupplier = new AtomicInteger();
+	private final AtomicInteger serverIdSupplier = new AtomicInteger();
 	private ConcurrentMap<Integer, TcpModbusMessage> serverPendingMessages;
 	private NettyTcpModbusServer server;
 

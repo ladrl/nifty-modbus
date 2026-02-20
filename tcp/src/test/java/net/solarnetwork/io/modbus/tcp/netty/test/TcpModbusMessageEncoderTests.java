@@ -53,7 +53,7 @@ import net.solarnetwork.io.modbus.tcp.netty.TcpModbusMessageEncoder;
  */
 public class TcpModbusMessageEncoderTests {
 
-	private AtomicInteger ID_SUPPLIER = new AtomicInteger();
+	private final AtomicInteger ID_SUPPLIER = new AtomicInteger();
 	private ConcurrentMap<Integer, TcpModbusMessage> messages;
 	private EmbeddedChannel channel;
 

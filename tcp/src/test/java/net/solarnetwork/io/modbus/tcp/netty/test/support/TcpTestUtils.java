@@ -31,14 +31,18 @@ import java.net.ServerSocket;
  * @author matt
  * @version 1.0
  */
-public class TcpTestUtils {
+public final class TcpTestUtils {
+
+	private TcpTestUtils() {
+		// not allowed
+	}
 
 	/**
 	 * Get a free IP port.
 	 * 
 	 * @return the free port
 	 */
-	public static final int freePort() {
+	public static int freePort() {
 		ServerSocket socket = null;
 		try {
 			socket = new ServerSocket(0);
