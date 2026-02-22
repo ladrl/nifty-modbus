@@ -23,6 +23,10 @@ jar.manifest {
     attributes('Implementation-Version': version)
 }
 
+javadoc {
+	enabled = false
+}
+
 eclipse {
 	jdt {
 		javaRuntimeName = 'JavaSE-1.8'
