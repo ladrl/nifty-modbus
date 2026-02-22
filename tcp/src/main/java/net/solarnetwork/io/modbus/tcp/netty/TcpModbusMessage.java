@@ -23,6 +23,7 @@
 package net.solarnetwork.io.modbus.tcp.netty;
 
 import static net.solarnetwork.io.modbus.ModbusByteUtils.encode16;
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBuf;
 import net.solarnetwork.io.modbus.ModbusError;
 import net.solarnetwork.io.modbus.ModbusFunction;
@@ -95,7 +96,7 @@ public class TcpModbusMessage
 	}
 
 	@Override
-	public boolean isSameAs(ModbusMessage obj) {
+	public boolean isSameAs(@Nullable ModbusMessage obj) {
 		if ( obj == this ) {
 			return true;
 		}
@@ -110,6 +111,7 @@ public class TcpModbusMessage
 	}
 
 	@SuppressWarnings("unchecked")
+	@Nullable
 	@Override
 	public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 		if ( net.solarnetwork.io.modbus.tcp.TcpModbusMessage.class.isAssignableFrom(msgType) ) {
@@ -160,6 +162,7 @@ public class TcpModbusMessage
 		return body.getFunction();
 	}
 
+	@Nullable
 	@Override
 	public ModbusError getError() {
 		return body.getError();

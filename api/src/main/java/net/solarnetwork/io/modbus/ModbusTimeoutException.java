@@ -22,6 +22,8 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * A Modbus timeout exception.
  *
@@ -41,7 +43,7 @@ public class ModbusTimeoutException extends ModbusException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param message
 	 *        the message
 	 */
@@ -51,23 +53,23 @@ public class ModbusTimeoutException extends ModbusException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param cause
 	 *        the cause
 	 */
-	public ModbusTimeoutException(Throwable cause) {
+	public ModbusTimeoutException(@Nullable Throwable cause) {
 		super(cause);
 	}
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param message
 	 *        the message
 	 * @param cause
 	 *        the cause
 	 */
-	public ModbusTimeoutException(String message, Throwable cause) {
+	public ModbusTimeoutException(String message, @Nullable Throwable cause) {
 		super(message, cause);
 	}
 

@@ -22,6 +22,7 @@
 
 package net.solarnetwork.io.modbus.netty.msg;
 
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBuf;
 import net.solarnetwork.io.modbus.ModbusError;
 import net.solarnetwork.io.modbus.ModbusFunction;
@@ -54,7 +55,7 @@ public class SimpleModbusMessageReply implements ModbusMessageReply, ModbusPaylo
 	 * @param reply
 	 *        the reply message
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public SimpleModbusMessageReply(ModbusMessage request, ModbusMessage reply) {
 		super();
@@ -93,7 +94,7 @@ public class SimpleModbusMessageReply implements ModbusMessageReply, ModbusPaylo
 	}
 
 	@Override
-	public boolean isSameAs(ModbusMessage obj) {
+	public boolean isSameAs(@Nullable ModbusMessage obj) {
 		if ( obj == this ) {
 			return true;
 		}
@@ -101,6 +102,7 @@ public class SimpleModbusMessageReply implements ModbusMessageReply, ModbusPaylo
 	}
 
 	@SuppressWarnings("unchecked")
+	@Nullable
 	@Override
 	public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 		if ( ModbusMessageReply.class.isAssignableFrom(msgType) ) {
@@ -119,6 +121,7 @@ public class SimpleModbusMessageReply implements ModbusMessageReply, ModbusPaylo
 		return reply.getFunction();
 	}
 
+	@Nullable
 	@Override
 	public ModbusError getError() {
 		return reply.getError();

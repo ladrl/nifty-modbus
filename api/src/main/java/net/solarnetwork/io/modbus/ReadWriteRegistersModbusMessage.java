@@ -22,9 +22,11 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * A Modbus message related to a holding register read/write.
- * 
+ *
  * <p>
  * The {@link AddressedModbusMessage#getAddress()} of this message refers to the
  * read address, and {@link AddressedModbusMessage#getCount()} refers to the
@@ -40,25 +42,25 @@ public interface ReadWriteRegistersModbusMessage extends RegistersModbusMessage 
 
 	/**
 	 * Get the write starting address.
-	 * 
+	 *
 	 * @return the write starting address
 	 */
 	int getWriteAddress();
 
 	/**
 	 * Get the write register data as signed 16-bit values.
-	 * 
+	 *
 	 * @return a copy of the register data as an array of signed 16-bit values,
-	 *         or {@literal null} if there is no data
+	 *         or {@code null} if there is no data
 	 */
-	short[] writeDataDecode();
+	short @Nullable [] writeDataDecode();
 
 	/**
 	 * Get the write register data as unsigned 16-bit values.
-	 * 
+	 *
 	 * @return a copy of the register data as an array of unsigned 16-bit
-	 *         values, or {@literal null} if there is no data
+	 *         values, or {@code null} if there is no data
 	 */
-	int[] writeDataDecodeUnsigned();
+	int @Nullable [] writeDataDecodeUnsigned();
 
 }

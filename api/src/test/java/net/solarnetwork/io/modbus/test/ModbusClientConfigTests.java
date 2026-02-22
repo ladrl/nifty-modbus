@@ -38,6 +38,7 @@ public class ModbusClientConfigTests {
 
 	private static class TestModbusClientConfig implements ModbusClientConfig {
 
+		@SuppressWarnings("NullableProblems")
 		@Override
 		public String getDescription() {
 			return null;

@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import net.solarnetwork.io.modbus.ModbusError;
 import net.solarnetwork.io.modbus.ModbusErrorCode;
@@ -46,13 +47,14 @@ public class ModbusMessageTests {
 		// GIVEN
 		ModbusMessage msg = new ModbusMessage() {
 
+			@Nullable
 			@Override
 			public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 				return null;
 			}
 
 			@Override
-			public boolean isSameAs(ModbusMessage obj) {
+			public boolean isSameAs(@Nullable ModbusMessage obj) {
 				return false;
 			}
 
@@ -61,6 +63,7 @@ public class ModbusMessageTests {
 				return 0;
 			}
 
+			@SuppressWarnings("NullableProblems")
 			@Override
 			public ModbusFunction getFunction() {
 				return null;
@@ -84,13 +87,14 @@ public class ModbusMessageTests {
 		// GIVEN
 		ModbusMessage msg = new ModbusMessage() {
 
+			@Nullable
 			@Override
 			public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 				return null;
 			}
 
 			@Override
-			public boolean isSameAs(ModbusMessage obj) {
+			public boolean isSameAs(@Nullable ModbusMessage obj) {
 				return false;
 			}
 
@@ -99,6 +103,7 @@ public class ModbusMessageTests {
 				return 0;
 			}
 
+			@SuppressWarnings("NullableProblems")
 			@Override
 			public ModbusFunction getFunction() {
 				return null;
@@ -122,13 +127,14 @@ public class ModbusMessageTests {
 		// GIVEN
 		ModbusMessage msg = new ModbusMessage() {
 
+			@Nullable
 			@Override
 			public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 				return null;
 			}
 
 			@Override
-			public boolean isSameAs(ModbusMessage obj) {
+			public boolean isSameAs(@Nullable ModbusMessage obj) {
 				return false;
 			}
 
@@ -137,6 +143,7 @@ public class ModbusMessageTests {
 				return 0;
 			}
 
+			@SuppressWarnings("NullableProblems")
 			@Override
 			public ModbusFunction getFunction() {
 				return null;
@@ -149,9 +156,8 @@ public class ModbusMessageTests {
 		};
 
 		// WHEN
-		ModbusMessage validated = assertDoesNotThrow(() -> {
-			return msg.validate();
-		}, "Default validation does not throw any exception.");
+		ModbusMessage validated = assertDoesNotThrow(msg::validate,
+				"Default validation does not throw any exception.");
 		assertThat("Validated is same instance", validated, is(sameInstance(msg)));
 	}
 

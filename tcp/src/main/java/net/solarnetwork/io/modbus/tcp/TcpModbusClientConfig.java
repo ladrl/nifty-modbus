@@ -22,6 +22,7 @@
 
 package net.solarnetwork.io.modbus.tcp;
 
+import org.jspecify.annotations.Nullable;
 import net.solarnetwork.io.modbus.ModbusClientConfig;
 
 /**
@@ -40,6 +41,7 @@ public interface TcpModbusClientConfig extends ModbusClientConfig {
 	 * 
 	 * @return the host
 	 */
+	@Nullable
 	String getHost();
 
 	/**

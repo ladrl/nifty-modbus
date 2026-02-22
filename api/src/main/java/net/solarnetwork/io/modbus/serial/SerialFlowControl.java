@@ -25,6 +25,7 @@ package net.solarnetwork.io.modbus.serial;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Enumeration of serial flow control settings.
@@ -161,11 +162,11 @@ public enum SerialFlowControl {
 	 *
 	 * @param value
 	 *        the slash-delimited list of abbreviations to parse
-	 * @return the enum set, never {@literal null}
+	 * @return the enum set, never {@code null}
 	 * @throws IllegalArgumentException
 	 *         if {@code value} is not empty but contains no valid abbreviation
 	 */
-	public static Set<SerialFlowControl> forAbbreviation(String value) {
+	public static Set<SerialFlowControl> forAbbreviation(@Nullable String value) {
 		if ( value == null || value.isEmpty() ) {
 			return EnumSet.of(None);
 		}

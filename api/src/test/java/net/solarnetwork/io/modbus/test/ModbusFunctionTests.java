@@ -53,6 +53,7 @@ public class ModbusFunctionTests {
 			return code;
 		}
 
+		@SuppressWarnings("NullableProblems")
 		@Override
 		public String toDisplayString() {
 			return null;
@@ -68,6 +69,7 @@ public class ModbusFunctionTests {
 			return null;
 		}
 
+		@SuppressWarnings("NullableProblems")
 		@Override
 		public ModbusBlockType blockType() {
 			return null;

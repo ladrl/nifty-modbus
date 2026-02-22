@@ -23,6 +23,7 @@
 package net.solarnetwork.io.modbus.serial;
 
 import java.util.Set;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Serial configuration parameters.
@@ -110,8 +111,9 @@ public interface SerialParameters {
 	/**
 	 * Get the flow control.
 	 *
-	 * @return the flow control set, or {@literal null} for no flow control
+	 * @return the flow control set, or {@code null} for no flow control
 	 */
+	@Nullable
 	default Set<SerialFlowControl> getFlowControl() {
 		return null;
 	}
@@ -154,14 +156,15 @@ public interface SerialParameters {
 	 * Get the RS-485 mode.
 	 *
 	 * <p>
-	 * When this is set to {@literal true} then the other {@code getRs485*}
+	 * When this is set to {@code true} then the other {@code getRs485*}
 	 * settings are used. This is only needed for some RS-485 hardware, and the
 	 * other {@code getRs485*} settings may not be supported across all
 	 * platforms.
 	 * </p>
 	 *
-	 * @return {@literal true} to enable RS-485 mode
+	 * @return {@code true} to enable RS-485 mode
 	 */
+	@Nullable
 	default Boolean getRs485ModeEnabled() {
 		return null;
 	}
@@ -171,11 +174,11 @@ public interface SerialParameters {
 	 *
 	 * <p>
 	 * This setting is only applicable when {@link #getRs485ModeEnabled()} is
-	 * {@literal true}.
+	 * {@code true}.
 	 * </p>
 	 *
-	 * @return {@literal true} to set the RTS line high (to 1) when
-	 *         transmitting; defaults to {@link #DEFAULT_RS485_RTS_HIGH_ENABLED}
+	 * @return {@code true} to set the RTS line high (to 1) when transmitting;
+	 *         defaults to {@link #DEFAULT_RS485_RTS_HIGH_ENABLED}
 	 */
 	default boolean isRs485RtsHighEnabled() {
 		return DEFAULT_RS485_RTS_HIGH_ENABLED;
@@ -186,11 +189,11 @@ public interface SerialParameters {
 	 *
 	 * <p>
 	 * This setting is only applicable when {@link #getRs485ModeEnabled()} is
-	 * {@literal true}.
+	 * {@code true}.
 	 * </p>
 	 *
-	 * @return {@literal true} to enable RS-485 bus termination; defaults to
-	 *         {@literal false}
+	 * @return {@code true} to enable RS-485 bus termination; defaults to
+	 *         {@code false}
 	 */
 	default boolean isRs485TerminationEnabled() {
 		return false;
@@ -201,11 +204,11 @@ public interface SerialParameters {
 	 *
 	 * <p>
 	 * This setting is only applicable when {@link #getRs485ModeEnabled()} is
-	 * {@literal true}.
+	 * {@code true}.
 	 * </p>
 	 *
-	 * @return {@literal true} to enable receive during transmit; defaults to
-	 *         {@literal false}
+	 * @return {@code true} to enable receive during transmit; defaults to
+	 *         {@code false}
 	 */
 	default boolean isRs485EchoEnabled() {
 		return false;
@@ -217,7 +220,7 @@ public interface SerialParameters {
 	 *
 	 * <p>
 	 * This setting is only applicable when {@link #getRs485ModeEnabled()} is
-	 * {@literal true}.
+	 * {@code true}.
 	 * </p>
 	 *
 	 * @return the delay, in microseconds; defaults to
@@ -233,7 +236,7 @@ public interface SerialParameters {
 	 *
 	 * <p>
 	 * This setting is only applicable when {@link #getRs485ModeEnabled()} is
-	 * {@literal true}.
+	 * {@code true}.
 	 * </p>
 	 *
 	 * @return the delay, in microseconds; defaults to
@@ -247,8 +250,9 @@ public interface SerialParameters {
 	 * Get a comma-delimited list of the enabled RS-485 settings, using the
 	 * {@code RS485_*_FLAG} constants.
 	 *
-	 * @return the delimited list, or {@literal null} if no settings are enabled
+	 * @return the delimited list, or {@code null} if no settings are enabled
 	 */
+	@Nullable
 	default String rs485Flags() {
 		StringBuilder tmp = new StringBuilder();
 		if ( isRs485RtsHighEnabled() ) {

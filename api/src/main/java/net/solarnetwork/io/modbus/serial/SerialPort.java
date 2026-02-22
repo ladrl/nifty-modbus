@@ -63,7 +63,7 @@ public interface SerialPort {
 	/**
 	 * Test if the stream is open.
 	 * 
-	 * @return {@literal true} if the stream is open
+	 * @return {@code true} if the stream is open
 	 */
 	boolean isOpen();
 

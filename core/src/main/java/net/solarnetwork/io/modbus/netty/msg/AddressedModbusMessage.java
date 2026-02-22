@@ -22,6 +22,7 @@
 
 package net.solarnetwork.io.modbus.netty.msg;
 
+import org.jspecify.annotations.Nullable;
 import net.solarnetwork.io.modbus.ModbusError;
 import net.solarnetwork.io.modbus.ModbusErrorCode;
 import net.solarnetwork.io.modbus.ModbusFunction;
@@ -92,7 +93,7 @@ public class AddressedModbusMessage extends BaseModbusMessage
 	 * @param function
 	 *        the function
 	 * @param error
-	 *        the error, or {@literal null} if no error
+	 *        the error, or {@code null} if no error
 	 * @param address
 	 *        the address; if less than {@literal 0} then {@literal 0} will be
 	 *        set
@@ -100,17 +101,17 @@ public class AddressedModbusMessage extends BaseModbusMessage
 	 *        the value count; if less than {@literal 0} then {@literal 0} will
 	 *        be set
 	 * @throws IllegalArgumentException
-	 *         if {@code function} is {@literal null}
+	 *         if {@code function} is {@code null}
 	 */
-	public AddressedModbusMessage(int unitId, ModbusFunction function, ModbusError error, int address,
-			int count) {
+	public AddressedModbusMessage(int unitId, ModbusFunction function, @Nullable ModbusError error,
+			int address, int count) {
 		super(unitId, function, error);
 		this.address = (address < 0 ? 0 : address);
 		this.count = (count < 0 ? 0 : count);
 	}
 
 	@Override
-	public boolean isSameAs(ModbusMessage obj) {
+	public boolean isSameAs(@Nullable ModbusMessage obj) {
 		if ( !super.isSameAs(obj) ) {
 			return false;
 		}

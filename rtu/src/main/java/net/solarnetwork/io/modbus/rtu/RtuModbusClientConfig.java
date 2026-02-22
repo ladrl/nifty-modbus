@@ -22,6 +22,7 @@
 
 package net.solarnetwork.io.modbus.rtu;
 
+import org.jspecify.annotations.Nullable;
 import net.solarnetwork.io.modbus.ModbusClientConfig;
 import net.solarnetwork.io.modbus.serial.SerialParameters;
 
@@ -37,15 +38,17 @@ public interface RtuModbusClientConfig extends ModbusClientConfig {
 	 * Get the name of the serial device to connect to, such as
 	 * {@literal /dev/ttyUSB0} or {@literal COM1}.
 	 * 
-	 * @return the serial device name
+	 * @return the serial device name, or {@code null} if not configured
 	 */
+	@Nullable
 	String getName();
 
 	/**
 	 * Get the serial device parameters to use.
 	 * 
-	 * @return the serial parameters
+	 * @return the serial parameters, or {@code null} if not configured
 	 */
+	@Nullable
 	SerialParameters getSerialParameters();
 
 	/**

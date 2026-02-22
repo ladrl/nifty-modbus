@@ -73,7 +73,7 @@ public interface RtuModbusMessage extends ModbusMessage {
 	/**
 	 * Test if the provided and computed CRC values match.
 	 * 
-	 * @return {@literal true} if {@link #getCrc()} and {@link #computeCrc()}
+	 * @return {@code true} if {@link #getCrc()} and {@link #computeCrc()}
 	 *         return the same value
 	 */
 	default boolean isCrcValid() {

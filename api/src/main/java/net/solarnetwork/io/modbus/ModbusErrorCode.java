@@ -101,6 +101,13 @@ public enum ModbusErrorCode implements ModbusError {
 		return this;
 	}
 
+	/**
+	 * Resolve an error instance from an error code.
+	 *
+	 * @param code
+	 *        the code to resolve
+	 * @return the error instance, never {@code null}
+	 */
 	public static ModbusError valueOf(byte code) {
 		switch (code) {
 			case ModbusErrorCodes.ILLEGAL_FUNCTION:

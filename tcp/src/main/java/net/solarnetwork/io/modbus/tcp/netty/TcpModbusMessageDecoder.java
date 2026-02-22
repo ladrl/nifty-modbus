@@ -81,14 +81,14 @@ public class TcpModbusMessageDecoder extends ReplayingDecoder<DecoderState> {
 	 * Constructor.
 	 * 
 	 * @param controller
-	 *        {@literal true} if operating as a controller where decoding is for
-	 *        Modbus response message, or {@literal false} if operating as a
+	 *        {@code true} if operating as a controller where decoding is for
+	 *        Modbus response message, or {@code false} if operating as a
 	 *        responder where decoding is for Modbus request messages
 	 * @param pendingMessages
 	 *        a mapping of transaction IDs to associated messages, to handle
 	 *        request and response pairing
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public TcpModbusMessageDecoder(boolean controller,
 			ConcurrentMap<Integer, TcpModbusMessage> pendingMessages) {

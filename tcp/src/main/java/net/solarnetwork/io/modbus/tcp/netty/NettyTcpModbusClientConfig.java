@@ -22,6 +22,7 @@
 
 package net.solarnetwork.io.modbus.tcp.netty;
 
+import org.jspecify.annotations.Nullable;
 import net.solarnetwork.io.modbus.netty.handler.NettyModbusClientConfig;
 import net.solarnetwork.io.modbus.tcp.TcpModbusClientConfig;
 
@@ -34,7 +35,7 @@ import net.solarnetwork.io.modbus.tcp.TcpModbusClientConfig;
 public class NettyTcpModbusClientConfig extends NettyModbusClientConfig
 		implements TcpModbusClientConfig {
 
-	private String host;
+	private @Nullable String host;
 	private int port;
 
 	/**
@@ -53,7 +54,7 @@ public class NettyTcpModbusClientConfig extends NettyModbusClientConfig
 	 * @param port
 	 *        the port
 	 */
-	public NettyTcpModbusClientConfig(String host, int port) {
+	public NettyTcpModbusClientConfig(@Nullable String host, int port) {
 		super();
 		this.host = host;
 		this.port = port;
@@ -64,6 +65,7 @@ public class NettyTcpModbusClientConfig extends NettyModbusClientConfig
 	 * 
 	 * @return the host
 	 */
+	@Nullable
 	@Override
 	public String getHost() {
 		return host;

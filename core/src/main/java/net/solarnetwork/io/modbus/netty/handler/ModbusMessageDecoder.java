@@ -55,8 +55,8 @@ public class ModbusMessageDecoder extends ByteToMessageDecoder {
 	 * Constructor.
 	 * 
 	 * @param controller
-	 *        {@literal true} if operating as a controller where decoding is for
-	 *        Modbus response message, or {@literal false} if operating as a
+	 *        {@code true} if operating as a controller where decoding is for
+	 *        Modbus response message, or {@code false} if operating as a
 	 *        responder where decoding is for Modbus request messages
 	 */
 	public ModbusMessageDecoder(boolean controller) {

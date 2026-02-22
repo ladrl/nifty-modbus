@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.jspecify.annotations.Nullable;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFactory;
@@ -56,7 +57,7 @@ public class RtuNettyModbusClient extends NettyModbusClient<RtuModbusClientConfi
 	private final boolean privateEventLoopGroup;
 	private final SerialPortProvider serialPortProvider;
 	private EventLoopGroup eventLoopGroup;
-	private CompletableFuture<?> eventLoopGroupStopFuture;
+	private @Nullable CompletableFuture<?> eventLoopGroupStopFuture;
 
 	/**
 	 * Constructor.
@@ -66,7 +67,7 @@ public class RtuNettyModbusClient extends NettyModbusClient<RtuModbusClientConfi
 	 * @param serialPortProvider
 	 *        the serial port provider
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public RtuNettyModbusClient(RtuModbusClientConfig clientConfig,
 			SerialPortProvider serialPortProvider) {
@@ -79,14 +80,14 @@ public class RtuNettyModbusClient extends NettyModbusClient<RtuModbusClientConfi
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param eventLoopGroup
-	 *        the event loop group, or {@literal null} to create an internal one
+	 *        the event loop group, or {@code null} to create an internal one
 	 * @param serialPortProvider
 	 *        the serial port provider
 	 * @throws IllegalArgumentException
-	 *         if any argument except {@code eventLoopGroup} is {@literal null}
+	 *         if any argument except {@code eventLoopGroup} is {@code null}
 	 */
-	public RtuNettyModbusClient(RtuModbusClientConfig clientConfig, EventLoopGroup eventLoopGroup,
-			SerialPortProvider serialPortProvider) {
+	public RtuNettyModbusClient(RtuModbusClientConfig clientConfig,
+			@Nullable EventLoopGroup eventLoopGroup, SerialPortProvider serialPortProvider) {
 		this(clientConfig, null, new ConcurrentHashMap<>(8, 0.9f, 2), eventLoopGroup,
 				serialPortProvider);
 	}
@@ -97,14 +98,16 @@ public class RtuNettyModbusClient extends NettyModbusClient<RtuModbusClientConfi
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param scheduler
-	 *        the scheduler, or {@literal null} to create an internal one
+	 *        the scheduler, or {@code null} to create an internal one
 	 * @param serialPortProvider
 	 *        the serial port provider
 	 * @throws IllegalArgumentException
-	 *         if any argument except {@code eventLoopGroup} is {@literal null}
+	 *         if any argument except {@code scheduler} or
+	 *         {@code eventLoopGroup} is {@code null}
 	 */
-	public RtuNettyModbusClient(RtuModbusClientConfig clientConfig, ScheduledExecutorService scheduler,
-			EventLoopGroup eventLoopGroup, SerialPortProvider serialPortProvider) {
+	public RtuNettyModbusClient(RtuModbusClientConfig clientConfig,
+			@Nullable ScheduledExecutorService scheduler, @Nullable EventLoopGroup eventLoopGroup,
+			SerialPortProvider serialPortProvider) {
 		this(clientConfig, scheduler, new ConcurrentHashMap<>(8, 0.9f, 2), eventLoopGroup,
 				serialPortProvider);
 	}
@@ -115,19 +118,21 @@ public class RtuNettyModbusClient extends NettyModbusClient<RtuModbusClientConfi
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param scheduler
-	 *        the scheduler, or {@literal null} to create an internal one
+	 *        the scheduler, or {@code null} to create an internal one
 	 * @param pending
 	 *        a map for request messages pending responses
 	 * @param eventLoopGroup
-	 *        the event loop group, or {@literal null} to create an internal one
+	 *        the event loop group, or {@code null} to create an internal one
 	 * @param serialPortProvider
 	 *        the serial port provider
 	 * @throws IllegalArgumentException
-	 *         if any argument except {@code eventLoopGroup} is {@literal null}
+	 *         if any argument except {@code scheduler} or
+	 *         {@code eventLoopGroup} is {@code null}
 	 */
-	public RtuNettyModbusClient(RtuModbusClientConfig clientConfig, ScheduledExecutorService scheduler,
-			ConcurrentMap<ModbusMessage, PendingMessage> pending, EventLoopGroup eventLoopGroup,
-			SerialPortProvider serialPortProvider) {
+	public RtuNettyModbusClient(RtuModbusClientConfig clientConfig,
+			@Nullable ScheduledExecutorService scheduler,
+			ConcurrentMap<ModbusMessage, PendingMessage> pending,
+			@Nullable EventLoopGroup eventLoopGroup, SerialPortProvider serialPortProvider) {
 		super(clientConfig, scheduler, pending);
 		if ( eventLoopGroup == null ) {
 			eventLoopGroup = defaultEventLoopGroup();

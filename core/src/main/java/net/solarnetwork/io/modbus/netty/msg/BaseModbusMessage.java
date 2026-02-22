@@ -23,6 +23,7 @@
 package net.solarnetwork.io.modbus.netty.msg;
 
 import java.util.Objects;
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBuf;
 import net.solarnetwork.io.modbus.ModbusError;
 import net.solarnetwork.io.modbus.ModbusErrorCode;
@@ -81,11 +82,11 @@ public class BaseModbusMessage implements ModbusMessage, ModbusPayloadEncoder {
 	 * @param function
 	 *        the function
 	 * @param error
-	 *        the error, or {@literal null} if no error
+	 *        the error, or {@code null} if no error
 	 * @throws IllegalArgumentException
-	 *         if {@code function} is {@literal null}
+	 *         if {@code function} is {@code null}
 	 */
-	public BaseModbusMessage(int unitId, ModbusFunction function, ModbusError error) {
+	public BaseModbusMessage(int unitId, ModbusFunction function, @Nullable ModbusError error) {
 		super();
 		this.unitId = unitId;
 		if ( function == null ) {
@@ -96,7 +97,7 @@ public class BaseModbusMessage implements ModbusMessage, ModbusPayloadEncoder {
 	}
 
 	@Override
-	public boolean isSameAs(ModbusMessage obj) {
+	public boolean isSameAs(@Nullable ModbusMessage obj) {
 		if ( this == obj ) {
 			return true;
 		}
@@ -109,6 +110,7 @@ public class BaseModbusMessage implements ModbusMessage, ModbusPayloadEncoder {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Nullable
 	@Override
 	public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 		if ( msgType.isAssignableFrom(getClass()) ) {
@@ -143,6 +145,7 @@ public class BaseModbusMessage implements ModbusMessage, ModbusPayloadEncoder {
 		return function;
 	}
 
+	@Nullable
 	@Override
 	public ModbusError getError() {
 		return error;

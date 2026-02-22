@@ -48,6 +48,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -547,7 +548,7 @@ public class NettyModbusClientTests {
 
 	@Test
 	public void startStop_observer() throws InterruptedException, ExecutionException, TimeoutException {
-		AtomicReference<EmbeddedChannel> channelRef = new AtomicReference<>();
+		AtomicReference<@Nullable EmbeddedChannel> channelRef = new AtomicReference<>();
 		ModbusClientConfig config = new NettyModbusClientConfig() {
 
 			@Override
@@ -572,7 +573,7 @@ public class NettyModbusClientTests {
 
 			@Override
 			public void connectionClosed(ModbusClient client, ModbusClientConfig config,
-					Throwable exception, boolean willReconnect) {
+					@Nullable Throwable exception, boolean willReconnect) {
 				assertThat("Client is own client", client, is(sameInstance(testClient)));
 				assertThat("Will not reconnect after explicit close", willReconnect, is(false));
 				closeCount.incrementAndGet();

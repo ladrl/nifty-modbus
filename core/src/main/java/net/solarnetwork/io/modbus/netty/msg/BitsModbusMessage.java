@@ -24,6 +24,7 @@ package net.solarnetwork.io.modbus.netty.msg;
 
 import static net.solarnetwork.io.modbus.ModbusByteUtils.encode16;
 import java.math.BigInteger;
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBuf;
 import net.solarnetwork.io.modbus.ModbusBlockType;
 import net.solarnetwork.io.modbus.ModbusByteUtils;
@@ -57,11 +58,12 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param count
 	 *        the value count
 	 * @param bits
-	 *        the bit values
+	 *        the bit values, or {@code null}
 	 * @throws IllegalArgumentException
 	 *         if {@code function} is not valid
 	 */
-	public BitsModbusMessage(int unitId, byte function, int address, int count, BigInteger bits) {
+	public BitsModbusMessage(int unitId, byte function, int address, int count,
+			@Nullable BigInteger bits) {
 		this(unitId, ModbusFunctionCode.valueOf(function), null, address, count, bits);
 	}
 
@@ -79,12 +81,12 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param count
 	 *        the value count
 	 * @param bits
-	 *        the bit values
+	 *        the bit values, or {@code null}
 	 * @throws IllegalArgumentException
 	 *         if {@code function} or {@code error} are not valid
 	 */
 	public BitsModbusMessage(int unitId, byte function, byte error, int address, int count,
-			BigInteger bits) {
+			@Nullable BigInteger bits) {
 		this(unitId, ModbusFunctionCode.valueOf(function), ModbusErrorCode.valueOf(error), address,
 				count, bits);
 	}
@@ -97,18 +99,18 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param function
 	 *        the function
 	 * @param error
-	 *        the error, or {@literal null} if no error
+	 *        the error, or {@code null} if no error
 	 * @param address
 	 *        the address
 	 * @param count
 	 *        the value count
 	 * @param bits
-	 *        the bit values
+	 *        the bit values, or {@code null}
 	 * @throws IllegalArgumentException
-	 *         if {@code function} is {@literal null}
+	 *         if {@code function} is {@code null}
 	 */
-	public BitsModbusMessage(int unitId, ModbusFunction function, ModbusError error, int address,
-			int count, BigInteger bits) {
+	public BitsModbusMessage(int unitId, ModbusFunction function, @Nullable ModbusError error,
+			int address, int count, @Nullable BigInteger bits) {
 		super(unitId, function, error, address, count);
 		this.bits = bits;
 	}
@@ -138,11 +140,11 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param count
 	 *        the number of bits read
 	 * @param bits
-	 *        the bits
+	 *        the bits, or {@code null}
 	 * @return the new message
 	 */
 	public static BitsModbusMessage readCoilsResponse(int unitId, int address, int count,
-			BigInteger bits) {
+			@Nullable BigInteger bits) {
 		return new BitsModbusMessage(unitId, ModbusFunctionCode.ReadCoils, null, address, count, bits);
 	}
 
@@ -154,7 +156,7 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param address
 	 *        the coil register address to write to
 	 * @param enabled
-	 *        {@literal true} to set the coil, or {@literal false} to clear it
+	 *        {@code true} to set the coil, or {@code false} to clear it
 	 * @return the new message
 	 */
 	public static BitsModbusMessage writeCoilRequest(int unitId, int address, boolean enabled) {
@@ -170,7 +172,7 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param address
 	 *        the coil register address to write to
 	 * @param enabled
-	 *        {@literal true} to set the coil, or {@literal false} to clear it
+	 *        {@code true} to set the coil, or {@code false} to clear it
 	 * @return the new message
 	 */
 	public static BitsModbusMessage writeCoilResponse(int unitId, int address, boolean enabled) {
@@ -235,11 +237,11 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param count
 	 *        the number of bits to read
 	 * @param bits
-	 *        the bits
+	 *        the bits, or {@code null}
 	 * @return the new message
 	 */
 	public static BitsModbusMessage readDiscretesResponse(int unitId, int address, int count,
-			BigInteger bits) {
+			@Nullable BigInteger bits) {
 		return new BitsModbusMessage(unitId, ModbusFunctionCode.ReadDiscreteInputs, null, address, count,
 				bits);
 	}
@@ -286,7 +288,7 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param in
 	 *        the input, assumed to be positioned after the function code byte
 	 *        in the payload
-	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @return the message, or {@code null} if a message cannot be decoded
 	 */
 	public static ModbusMessage decodeRequestPayload(final int unitId, byte functionCode,
 			final int address, final int count, final ByteBuf in) {
@@ -346,7 +348,7 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	 * @param in
 	 *        the input, assumed to be positioned after the function code byte
 	 *        in the payload
-	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @return the message, or {@code null} if a message cannot be decoded
 	 */
 	public static ModbusMessage decodeResponsePayload(final int unitId, final byte functionCode,
 			final int address, final int count, final ByteBuf in) {
@@ -391,7 +393,7 @@ public class BitsModbusMessage extends AddressedModbusMessage
 	}
 
 	@Override
-	public boolean isSameAs(ModbusMessage obj) {
+	public boolean isSameAs(@Nullable ModbusMessage obj) {
 		if ( !super.isSameAs(obj) ) {
 			return false;
 		}
@@ -402,6 +404,7 @@ public class BitsModbusMessage extends AddressedModbusMessage
 		return bits.equals(other.bits);
 	}
 
+	@Nullable
 	@Override
 	public BigInteger getBits() {
 		return bits;

@@ -31,6 +31,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -114,8 +115,8 @@ public class NettyRtuModbusServerTests {
 		};
 	}
 
-	private EmbeddedChannel channel;
-	private NettyRtuModbusServer server;
+	private @Nullable EmbeddedChannel channel;
+	private @Nullable NettyRtuModbusServer server;
 
 	@BeforeEach
 	public void setup() {

@@ -33,6 +33,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.IntSupplier;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.netty.bootstrap.ServerBootstrap;
@@ -88,17 +89,17 @@ public class NettyTcpModbusServer {
 
 	private final String bindAddress;
 	private final int port;
-	private ScheduledFuture<?> cleanupTask;
+	private @Nullable ScheduledFuture<?> cleanupTask;
 
-	private BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler;
-	private BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler;
-	private BiFunction<InetSocketAddress, Boolean, Boolean> clientConnectionListener;
+	private @Nullable BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler;
+	private @Nullable BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler;
+	private @Nullable BiFunction<InetSocketAddress, Boolean, Boolean> clientConnectionListener;
 	private long pendingMessageTtl = DEFAULT_PENDING_MESSAGE_TTL;
 	private boolean wireLogging;
 
-	private EventLoopGroup bossGroup;
-	private EventLoopGroup workerGroup;
-	private Channel channel;
+	private @Nullable EventLoopGroup bossGroup;
+	private @Nullable EventLoopGroup workerGroup;
+	private @Nullable Channel channel;
 
 	/**
 	 * Constructor.
@@ -110,7 +111,7 @@ public class NettyTcpModbusServer {
 	 * @param port
 	 *        the port to listen on
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public NettyTcpModbusServer(int port) {
 		this(port, new ConcurrentHashMap<>(8, 0.9f, 2), SimpleTransactionIdSupplier.INSTANCE);
@@ -124,7 +125,7 @@ public class NettyTcpModbusServer {
 	 * @param port
 	 *        the port to listen on
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public NettyTcpModbusServer(String bindAddress, int port) {
 		this(bindAddress, port, new ConcurrentHashMap<>(8, 0.9f, 2),
@@ -146,7 +147,7 @@ public class NettyTcpModbusServer {
 	 * @param transactionIdSupplier
 	 *        the transaction ID supplier
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public NettyTcpModbusServer(int port, ConcurrentMap<Integer, TcpModbusMessage> pendingMessages,
 			IntSupplier transactionIdSupplier) {
@@ -166,7 +167,7 @@ public class NettyTcpModbusServer {
 	 * @param transactionIdSupplier
 	 *        the transaction ID supplier
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public NettyTcpModbusServer(String bindAddress, int port,
 			ConcurrentMap<Integer, TcpModbusMessage> pendingMessages,
@@ -404,6 +405,7 @@ public class NettyTcpModbusServer {
 	 * 
 	 * @return the handler
 	 */
+	@Nullable
 	public BiConsumer<ModbusMessage, Consumer<ModbusMessage>> getMessageHandler() {
 		return messageHandler;
 	}
@@ -419,7 +421,8 @@ public class NettyTcpModbusServer {
 	 * @param messageHandler
 	 *        the handler to set
 	 */
-	public void setMessageHandler(BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler) {
+	public void setMessageHandler(
+			@Nullable BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler) {
 		this.messageHandler = messageHandler;
 	}
 
@@ -429,6 +432,7 @@ public class NettyTcpModbusServer {
 	 * @return the handler
 	 * @since 1.1
 	 */
+	@Nullable
 	public BiConsumer<Throwable, Consumer<ModbusMessage>> getExceptionHandler() {
 		return exceptionHandler;
 	}
@@ -445,7 +449,8 @@ public class NettyTcpModbusServer {
 	 *        the exception handler to set
 	 * @since 1.1
 	 */
-	public void setExceptionHandler(BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler) {
+	public void setExceptionHandler(
+			@Nullable BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler) {
 		this.exceptionHandler = exceptionHandler;
 	}
 
@@ -455,6 +460,7 @@ public class NettyTcpModbusServer {
 	 * @return a client connection listener, or {@code null}
 	 * @see #setClientConnectionListener(BiFunction)
 	 */
+	@Nullable
 	public BiFunction<InetSocketAddress, Boolean, Boolean> getClientConnectionListener() {
 		return clientConnectionListener;
 	}
@@ -478,14 +484,14 @@ public class NettyTcpModbusServer {
 	 *        the client connection listener, or {@code null}
 	 */
 	public void setClientConnectionListener(
-			BiFunction<InetSocketAddress, Boolean, Boolean> clientConnectionListener) {
+			@Nullable BiFunction<InetSocketAddress, Boolean, Boolean> clientConnectionListener) {
 		this.clientConnectionListener = clientConnectionListener;
 	}
 
 	/**
 	 * Get the "wire logging" setting.
 	 * 
-	 * @return {@literal true} to enable wire-level logging of all messages
+	 * @return {@code true} to enable wire-level logging of all messages
 	 */
 	public boolean isWireLogging() {
 		return wireLogging;
@@ -495,7 +501,7 @@ public class NettyTcpModbusServer {
 	 * Set the "wire logging" setting.
 	 * 
 	 * @param wireLogging
-	 *        {@literal true} to enable wire-level logging of all messages
+	 *        {@code true} to enable wire-level logging of all messages
 	 */
 	public void setWireLogging(boolean wireLogging) {
 		this.wireLogging = wireLogging;

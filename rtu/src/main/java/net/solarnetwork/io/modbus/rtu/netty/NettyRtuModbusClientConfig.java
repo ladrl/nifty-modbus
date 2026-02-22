@@ -22,6 +22,7 @@
 
 package net.solarnetwork.io.modbus.rtu.netty;
 
+import org.jspecify.annotations.Nullable;
 import net.solarnetwork.io.modbus.netty.handler.NettyModbusClientConfig;
 import net.solarnetwork.io.modbus.rtu.RtuModbusClientConfig;
 import net.solarnetwork.io.modbus.serial.SerialParameters;
@@ -35,8 +36,8 @@ import net.solarnetwork.io.modbus.serial.SerialParameters;
 public class NettyRtuModbusClientConfig extends NettyModbusClientConfig
 		implements RtuModbusClientConfig {
 
-	private String name;
-	private SerialParameters serialParameters;
+	private @Nullable String name;
+	private @Nullable SerialParameters serialParameters;
 
 	/**
 	 * Constructor.
@@ -59,6 +60,7 @@ public class NettyRtuModbusClientConfig extends NettyModbusClientConfig
 		setSerialParameters(serialParameters);
 	}
 
+	@Nullable
 	@Override
 	public final String getName() {
 		return name;
@@ -75,6 +77,7 @@ public class NettyRtuModbusClientConfig extends NettyModbusClientConfig
 		this.name = name;
 	}
 
+	@Nullable
 	@Override
 	public final SerialParameters getSerialParameters() {
 		return serialParameters;

@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.jspecify.annotations.Nullable;
 import net.solarnetwork.io.modbus.ModbusBlockType;
 import net.solarnetwork.io.modbus.ModbusClient;
 import net.solarnetwork.io.modbus.ModbusClientConfig;
@@ -147,8 +148,8 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 	}
 
 	@Override
-	public void connectionClosed(ModbusClient client, ModbusClientConfig config, Throwable exception,
-			boolean willReconnect) {
+	public void connectionClosed(ModbusClient client, ModbusClientConfig config,
+			@Nullable Throwable exception, boolean willReconnect) {
 		out.printf("Connection closed to %s\n", config);
 		System.exit(0); // only way to bail from blocking in.readLine() in main loop :-(
 	}
@@ -647,8 +648,8 @@ public class ModbusShell implements ModbusClientConnectionObserver {
 	 *        the parameters to configure
 	 * @param arg
 	 *        the RS-485 argument; a comma-delimited list of RS-485 settings
-	 * @return {@literal true} if {@code arg} was processed as RS-485 settings,
-	 *         or {@literal false} if not
+	 * @return {@code true} if {@code arg} was processed as RS-485 settings, or
+	 *         {@code false} if not
 	 * @see BasicSerialParameters#populateRs485Flags(String)
 	 */
 	private static boolean setupRs485Mode(BasicSerialParameters params, String arg) {

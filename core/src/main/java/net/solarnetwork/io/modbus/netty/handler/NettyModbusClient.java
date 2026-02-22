@@ -37,6 +37,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.netty.bootstrap.Bootstrap;
@@ -115,15 +116,15 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 	/** The scheduler. */
 	private ScheduledExecutorService scheduler;
 
-	private ModbusClientConnectionObserver connectionObserver;
+	private @Nullable ModbusClientConnectionObserver connectionObserver;
 	private boolean wireLogging;
 	private long pendingMessageTtl = DEFAULT_PENDING_MESSAGE_TTL;
 	private long replyTimeout = DEFAULT_REPLY_TIMEOUT;
 
-	private ScheduledFuture<?> cleanupTask;
-	private CompletableFuture<?> connFuture;
-	private CompletableFuture<?> stopFuture;
-	private volatile Channel channel;
+	private @Nullable ScheduledFuture<?> cleanupTask;
+	private @Nullable CompletableFuture<?> connFuture;
+	private @Nullable CompletableFuture<?> stopFuture;
+	private volatile @Nullable Channel channel;
 	private volatile boolean stopped;
 
 	private final ConcurrentMap<ModbusMessage, PendingMessage> pending;
@@ -135,11 +136,11 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param scheduler
-	 *        the scheduler, or {@literal null} to create an internal one
+	 *        the scheduler, or {@code null} to create an internal one
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
-	public NettyModbusClient(C clientConfig, ScheduledExecutorService scheduler) {
+	public NettyModbusClient(C clientConfig, @Nullable ScheduledExecutorService scheduler) {
 		this(clientConfig, scheduler, new ConcurrentHashMap<>(8, 0.9f, 2));
 	}
 
@@ -149,13 +150,13 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param scheduler
-	 *        the scheduler, or {@literal null} to create an internal one
+	 *        the scheduler, or {@code null} to create an internal one
 	 * @param pending
 	 *        a map for request messages pending responses
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
-	public NettyModbusClient(C clientConfig, ScheduledExecutorService scheduler,
+	public NettyModbusClient(C clientConfig, @Nullable ScheduledExecutorService scheduler,
 			ConcurrentMap<ModbusMessage, PendingMessage> pending) {
 		super();
 		if ( clientConfig == null ) {
@@ -482,7 +483,7 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 		 * @param future
 		 *        the future awaiting the response
 		 * @throws IllegalArgumentException
-		 *         if any argument is {@literal null}
+		 *         if any argument is {@code null}
 		 */
 		public PendingMessage(ModbusMessage request, CompletableFuture<ModbusMessage> future) {
 			super();
@@ -577,21 +578,22 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 	/**
 	 * Get the connection observer.
 	 * 
-	 * @return the connection observer, or {@literal null}
+	 * @return the connection observer, or {@code null}
 	 */
+	@Nullable
 	public ModbusClientConnectionObserver getConnectionObserver() {
 		return connectionObserver;
 	}
 
 	@Override
-	public void setConnectionObserver(ModbusClientConnectionObserver connectionObserver) {
+	public void setConnectionObserver(@Nullable ModbusClientConnectionObserver connectionObserver) {
 		this.connectionObserver = connectionObserver;
 	}
 
 	/**
 	 * Get the "wire logging" setting.
 	 * 
-	 * @return {@literal true} to enable wire-level logging of all messages
+	 * @return {@code true} to enable wire-level logging of all messages
 	 */
 	public boolean isWireLogging() {
 		return wireLogging;
@@ -610,7 +612,7 @@ public abstract class NettyModbusClient<C extends ModbusClientConfig> implements
 	 * </p>
 	 * 
 	 * @param wireLogging
-	 *        {@literal true} to enable wire-level logging of all messages
+	 *        {@code true} to enable wire-level logging of all messages
 	 */
 	public void setWireLogging(boolean wireLogging) {
 		this.wireLogging = wireLogging;

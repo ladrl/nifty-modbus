@@ -66,6 +66,7 @@ public class DefaultSerialPortChannelConfigTests {
 	public void setup() {
 		ch = new SerialPortChannel(new SerialPortProvider() {
 
+			@SuppressWarnings("NullableProblems")
 			@Override
 			public SerialPort getSerialPort(String name) {
 				return null;

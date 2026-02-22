@@ -29,6 +29,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import net.solarnetwork.io.modbus.ModbusError;
 import net.solarnetwork.io.modbus.ModbusFunction;
@@ -47,13 +48,14 @@ public class RtuModbusMessageTests {
 	private RtuModbusMessage msg(short crc, short computedCrc) {
 		return new RtuModbusMessage() {
 
+			@Nullable
 			@Override
 			public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 				return null;
 			}
 
 			@Override
-			public boolean isSameAs(ModbusMessage obj) {
+			public boolean isSameAs(@Nullable ModbusMessage obj) {
 				return false;
 			}
 

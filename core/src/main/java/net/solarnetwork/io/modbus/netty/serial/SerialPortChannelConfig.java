@@ -23,6 +23,7 @@
 package net.solarnetwork.io.modbus.netty.serial;
 
 import java.util.Set;
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelConfig;
 import io.netty.channel.MessageSizeEstimator;
@@ -112,30 +113,30 @@ public interface SerialPortChannelConfig extends ChannelConfig, SerialParameters
 	 * Set the flow control.
 	 *
 	 * @param flowControl
-	 *        the flow control, or {@literal null} for none
+	 *        the flow control, or {@code null} for none
 	 * @return this instance
 	 */
-	SerialPortChannelConfig setFlowControl(Set<SerialFlowControl> flowControl);
+	SerialPortChannelConfig setFlowControl(@Nullable Set<SerialFlowControl> flowControl);
 
 	/**
 	 * Set the RS-485 mode.
 	 *
 	 * <p>
-	 * When this is set to {@literal true} then the other {@code getRs485*}
+	 * When this is set to {@code true} then the other {@code getRs485*}
 	 * settings are used.
 	 * </p>
 	 *
 	 * @param rs485ModeEnabled
-	 *        {@literal true} to enable RS-485 mode
+	 *        {@code true} to enable RS-485 mode
 	 * @return this instance
 	 */
-	SerialPortChannelConfig setRs485ModeEnabled(Boolean rs485ModeEnabled);
+	SerialPortChannelConfig setRs485ModeEnabled(@Nullable Boolean rs485ModeEnabled);
 
 	/**
 	 * Set the RS-485 RTS "high" mode.
 	 *
 	 * @param rs485RtsHighEnabled
-	 *        {@literal true} to set the RTS line high (to 1) when transmitting
+	 *        {@code true} to set the RTS line high (to 1) when transmitting
 	 * @return this instance
 	 */
 	SerialPortChannelConfig setRs485RtsHighEnabled(boolean rs485RtsHighEnabled);
@@ -144,7 +145,7 @@ public interface SerialPortChannelConfig extends ChannelConfig, SerialParameters
 	 * Set the RS-485 termination mode.
 	 *
 	 * @param rs485TerminationEnabled
-	 *        {@literal true} to enable RS-485 bus termination
+	 *        {@code true} to enable RS-485 bus termination
 	 * @return this instance
 	 */
 	SerialPortChannelConfig setRs485TerminationEnabled(boolean rs485TerminationEnabled);
@@ -153,7 +154,7 @@ public interface SerialPortChannelConfig extends ChannelConfig, SerialParameters
 	 * Set the RS-485 "echo" mode.
 	 *
 	 * @param rs485EchoEnabled
-	 *        {@literal true} to enable receive during transmit
+	 *        {@code true} to enable receive during transmit
 	 * @return this instance
 	 */
 	SerialPortChannelConfig setRs485EchoEnabled(boolean rs485EchoEnabled);

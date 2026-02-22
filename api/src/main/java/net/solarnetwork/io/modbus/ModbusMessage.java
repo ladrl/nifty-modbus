@@ -22,6 +22,8 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * API for a Modbus message.
  *
@@ -44,21 +46,22 @@ public interface ModbusMessage {
 	/**
 	 * Get the Modbus function code.
 	 *
-	 * @return the function code, never {@literal null}
+	 * @return the function code, never {@code null}
 	 */
 	ModbusFunction getFunction();
 
 	/**
 	 * Get the Modbus error code.
 	 *
-	 * @return the error code, or {@literal null} if not an error
+	 * @return the error code, or {@code null} if not an error
 	 */
+	@Nullable
 	ModbusError getError();
 
 	/**
 	 * Test if this message is an exception (error).
 	 *
-	 * @return {@literal true} if {@link #getError()} it not {@literal null}
+	 * @return {@code true} if {@link #getError()} it not {@code null}
 	 */
 	default boolean isException() {
 		return (getError() != null);
@@ -102,9 +105,10 @@ public interface ModbusMessage {
 	 *        the message type to unwrap
 	 * @param msgType
 	 *        the class to unwrap as
-	 * @return the message as the given type, or {@literal null} if this message
-	 *         is not compatible with {@code msgType}
+	 * @return the message as the given type, or {@code null} if this message is
+	 *         not compatible with {@code msgType}
 	 */
+	@Nullable
 	<T extends ModbusMessage> T unwrap(Class<T> msgType);
 
 	/**
@@ -115,7 +119,7 @@ public interface ModbusMessage {
 	 * @return if the class of {@code other} is the same as this class, and the
 	 *         properties are the same
 	 */
-	boolean isSameAs(ModbusMessage obj);
+	boolean isSameAs(@Nullable ModbusMessage obj);
 
 	/**
 	 * Validate this message in some way.

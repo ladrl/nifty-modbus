@@ -143,8 +143,8 @@ See the example [RTU Server][ex-rtu-server] class for more details.
 
 # Dependencies
 
-Nifty Modbus requires a Java 8 or later runtime and has core dependencies on Netty 4.2 and slf4j
-1.7. For Modbus RTU (serial port) the [rtu-jsc](./rtu-jsc/) component depends on
+Nifty Modbus requires a Java 8 or later runtime and has core dependencies on Netty 4.2, slf4j
+1.7, and jSpecify 1.0. For Modbus RTU (serial port) the [rtu-jsc](./rtu-jsc/) component depends on
 [jSerialComm][jSerialComm] 2.9. More specifically, it requires the following direct dependencies:
 
 | Dependency | Version | Description |
@@ -153,6 +153,7 @@ Nifty Modbus requires a Java 8 or later runtime and has core dependencies on Net
 | `io.netty:netty-codec`     | 4.2 | Nifty Modbus implements decoders/encoders for the Modbus protocol. |
 | `io.netty:netty-handler`   | 4.2 | Provides wire-level logging support. |
 | `org.slf4j:slf4j-api`      | 1.7 | For logging. |
+| `org.jspecify:jspecify`    | 1.0 | For nullability annotations. |
 | `com.fazecast:jSerialComm` | 2.9 | For RTU serial support. Not needed for TCP. |
 
 [![RTU JSC JavaDoc](https://javadoc.io/badge2/net.solarnetwork.common/nifty-modbus-rtu-jsc/JavaDoc%20RTU%20jSerialComm.svg)](https://javadoc.io/doc/net.solarnetwork.common/nifty-modbus-rtu-jsc)

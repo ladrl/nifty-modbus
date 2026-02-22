@@ -42,6 +42,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,7 +70,7 @@ public class RtuNettyModbusClient_ServerTests {
 	private ConcurrentMap<ModbusMessage, PendingMessage> pending;
 	private NettyRtuModbusClientConfig config;
 	private RtuNettyModbusClient client;
-	private SerialPort serialPort;
+	private @Nullable SerialPort serialPort;
 	private ExecutorService executor;
 	private ByteArrayOutputStream out;
 	private PipedOutputStream pout = new PipedOutputStream();

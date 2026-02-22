@@ -54,7 +54,7 @@ public class TcpModbusMessageEncoder extends MessageToMessageEncoder<ModbusMessa
 	 *        a mapping of transaction IDs to associated pendingMessages, to
 	 *        handle request and response pairing
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public TcpModbusMessageEncoder(ConcurrentMap<Integer, TcpModbusMessage> pendingMessages) {
 		this(pendingMessages, SimpleTransactionIdSupplier.INSTANCE);
@@ -70,7 +70,7 @@ public class TcpModbusMessageEncoder extends MessageToMessageEncoder<ModbusMessa
 	 *        a TCP Modbus transaction ID supplier; only values from 1-65535
 	 *        should be supplied
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public TcpModbusMessageEncoder(ConcurrentMap<Integer, TcpModbusMessage> pendingMessages,
 			IntSupplier transactionIdSupplier) {

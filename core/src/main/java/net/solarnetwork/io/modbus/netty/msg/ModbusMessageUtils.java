@@ -50,7 +50,7 @@ public final class ModbusMessageUtils {
 	 * @param out
 	 *        the buffer to encode the message into
 	 * @throws IllegalArgumentException
-	 *         if message is not {@literal null} but does not implement
+	 *         if message is not {@code null} but does not implement
 	 *         {@link ModbusPayloadEncoder}
 	 */
 	public static void encodePayload(final ModbusMessage message, ByteBuf out) {
@@ -251,7 +251,7 @@ public final class ModbusMessageUtils {
 	 * 
 	 * @param in
 	 *        the input
-	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @return the message, or {@code null} if a message cannot be decoded
 	 * @throws ModbusUnsupportedFunctionException
 	 *         if the Modbus function code is not supported
 	 */
@@ -270,7 +270,7 @@ public final class ModbusMessageUtils {
 	 *        the count, or {@code 0} for no count
 	 * @param in
 	 *        the input
-	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @return the message, or {@code null} if a message cannot be decoded
 	 * @throws ModbusUnsupportedFunctionException
 	 *         if the Modbus function code is not supported
 	 */
@@ -325,7 +325,7 @@ public final class ModbusMessageUtils {
 	 * 
 	 * @param in
 	 *        the input
-	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @return the message, or {@code null} if a message cannot be decoded
 	 * @throws ModbusUnsupportedFunctionException
 	 *         if the Modbus function code is not supported
 	 */
@@ -344,7 +344,7 @@ public final class ModbusMessageUtils {
 	 *        the count, or {@code 0} for no count
 	 * @param in
 	 *        the input
-	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @return the message, or {@code null} if a message cannot be decoded
 	 * @throws ModbusUnsupportedFunctionException
 	 *         if the Modbus function code is not supported
 	 */
@@ -402,8 +402,8 @@ public final class ModbusMessageUtils {
 	 *        the Modbus function code value
 	 * @param in
 	 *        the input data, starting after the Modbus function code
-	 * @return the error code, or {@literal null} if {@code functionCode} is not
-	 *         an exception value
+	 * @return the error code, or {@code null} if {@code functionCode} is not an
+	 *         exception value
 	 */
 	public static ModbusError decodeError(final byte functionCode, final ByteBuf in) {
 		ModbusError error = null;

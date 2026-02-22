@@ -37,6 +37,7 @@ import static net.solarnetwork.io.modbus.netty.serial.SerialPortChannelOption.ST
 import static net.solarnetwork.io.modbus.netty.serial.SerialPortChannelOption.WAIT_TIME;
 import java.util.Map;
 import java.util.Set;
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.DefaultChannelConfig;
@@ -59,8 +60,8 @@ public class DefaultSerialPortChannelConfig extends DefaultChannelConfig
 	private volatile SerialStopBits stopBits = DEFAULT_STOP_BITS;
 	private volatile int dataBits = DEFAULT_DATA_BITS;
 	private volatile SerialParity parity = DEFAULT_PARITY;
-	private Set<SerialFlowControl> flowControl;
-	private volatile Boolean rs485ModeEnabled;
+	private @Nullable Set<SerialFlowControl> flowControl;
+	private volatile @Nullable Boolean rs485ModeEnabled;
 	private volatile boolean rs485RtsHighEnabled = DEFAULT_RS485_RTS_HIGH_ENABLED;
 	private volatile boolean rs485TerminationEnabled;
 	private volatile boolean rs485EchoEnabled;
@@ -218,24 +219,26 @@ public class DefaultSerialPortChannelConfig extends DefaultChannelConfig
 		return this;
 	}
 
+	@Nullable
 	@Override
 	public Set<SerialFlowControl> getFlowControl() {
 		return flowControl;
 	}
 
 	@Override
-	public SerialPortChannelConfig setFlowControl(Set<SerialFlowControl> flowControl) {
+	public SerialPortChannelConfig setFlowControl(@Nullable Set<SerialFlowControl> flowControl) {
 		this.flowControl = flowControl;
 		return this;
 	}
 
+	@Nullable
 	@Override
 	public Boolean getRs485ModeEnabled() {
 		return rs485ModeEnabled;
 	}
 
 	@Override
-	public SerialPortChannelConfig setRs485ModeEnabled(Boolean rs485ModeEnabled) {
+	public SerialPortChannelConfig setRs485ModeEnabled(@Nullable Boolean rs485ModeEnabled) {
 		this.rs485ModeEnabled = rs485ModeEnabled;
 		return this;
 	}

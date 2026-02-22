@@ -24,6 +24,7 @@ package net.solarnetwork.io.modbus;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A Modbus message related to a 16-bit register-based (input/holding) register
@@ -41,35 +42,35 @@ public interface RegistersModbusMessage extends AddressedModbusMessage {
 	 * This returns a new copy of the register data.
 	 * </p>
 	 *
-	 * @return the raw register data copy, or {@literal null} if there is no
-	 *         data
+	 * @return the raw register data copy, or {@code null} if there is no data
 	 */
-	byte[] dataCopy();
+	byte @Nullable [] dataCopy();
 
 	/**
 	 * Get the register data as signed 16-bit values.
 	 *
 	 * @return a copy of the register data as an array of signed 16-bit values,
-	 *         or {@literal null} if there is no data
+	 *         or {@code null} if there is no data
 	 */
-	short[] dataDecode();
+	short @Nullable [] dataDecode();
 
 	/**
 	 * Get the register data as unsigned 16-bit values.
 	 *
 	 * @return a copy of the register data as an array of unsigned 16-bit
-	 *         values, or {@literal null} if there is no data
+	 *         values, or {@code null} if there is no data
 	 */
-	int[] dataDecodeUnsigned();
+	int @Nullable [] dataDecodeUnsigned();
 
 	/**
 	 * Get the register data as a string.
 	 *
 	 * @param charset
 	 *        the encoding to interpret the bytes as
-	 * @return the new string, or {@literal null} if there is no data
+	 * @return the new string, or {@code null} if there is no data
 	 * @since 1.1
 	 */
+	@Nullable
 	default String dataDecodeString(Charset charset) {
 		byte[] data = dataCopy();
 		if ( data == null ) {
@@ -81,9 +82,10 @@ public interface RegistersModbusMessage extends AddressedModbusMessage {
 	/**
 	 * Get the register data as a {@code US-ASCII} string.
 	 *
-	 * @return the new string, or {@literal null} if there is no data
+	 * @return the new string, or {@code null} if there is no data
 	 * @since 1.1
 	 */
+	@Nullable
 	default String dataDecodeAsciiString() {
 		return dataDecodeString(StandardCharsets.US_ASCII);
 	}
@@ -91,9 +93,10 @@ public interface RegistersModbusMessage extends AddressedModbusMessage {
 	/**
 	 * Get the register data as a {@code ISO-8859-1} (Latin1) string.
 	 *
-	 * @return the new string, or {@literal null} if there is no data
+	 * @return the new string, or {@code null} if there is no data
 	 * @since 1.1
 	 */
+	@Nullable
 	default String dataDecodeIso88591String() {
 		return dataDecodeString(StandardCharsets.ISO_8859_1);
 	}
@@ -101,9 +104,10 @@ public interface RegistersModbusMessage extends AddressedModbusMessage {
 	/**
 	 * Get the register data as a {@code UTF-8} string.
 	 *
-	 * @return the new string, or {@literal null} if there is no data
+	 * @return the new string, or {@code null} if there is no data
 	 * @since 1.1
 	 */
+	@Nullable
 	default String dataDecodeUtf8String() {
 		return dataDecodeString(StandardCharsets.UTF_8);
 	}
@@ -111,9 +115,10 @@ public interface RegistersModbusMessage extends AddressedModbusMessage {
 	/**
 	 * Get the register data as a {@code UTF-16} (byte-order mark) string.
 	 *
-	 * @return the new string, or {@literal null} if there is no data
+	 * @return the new string, or {@code null} if there is no data
 	 * @since 1.1
 	 */
+	@Nullable
 	default String dataDecodeUtf16String() {
 		return dataDecodeString(StandardCharsets.UTF_16);
 	}
@@ -121,9 +126,10 @@ public interface RegistersModbusMessage extends AddressedModbusMessage {
 	/**
 	 * Get the register data as a {@code UTF-16} (big-endian) string.
 	 *
-	 * @return the new string, or {@literal null} if there is no data
+	 * @return the new string, or {@code null} if there is no data
 	 * @since 1.1
 	 */
+	@Nullable
 	default String dataDecodeUtf16BeString() {
 		return dataDecodeString(StandardCharsets.UTF_16BE);
 	}
@@ -131,9 +137,10 @@ public interface RegistersModbusMessage extends AddressedModbusMessage {
 	/**
 	 * Get the register data as a {@code UTF-16} (little-endian) string.
 	 *
-	 * @return the new string, or {@literal null} if there is no data
+	 * @return the new string, or {@code null} if there is no data
 	 * @since 1.1
 	 */
+	@Nullable
 	default String dataDecodeUtf16LeString() {
 		return dataDecodeString(StandardCharsets.UTF_16LE);
 	}

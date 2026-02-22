@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import java.nio.charset.StandardCharsets;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import net.solarnetwork.io.modbus.ModbusByteUtils;
 import net.solarnetwork.io.modbus.ModbusError;
@@ -45,13 +46,14 @@ public class RegisterModbusMessageTests {
 	private RegistersModbusMessage msg(final byte[] data) {
 		return new RegistersModbusMessage() {
 
+			@Nullable
 			@Override
 			public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 				return null;
 			}
 
 			@Override
-			public boolean isSameAs(ModbusMessage obj) {
+			public boolean isSameAs(@Nullable ModbusMessage obj) {
 				return false;
 			}
 

@@ -43,8 +43,8 @@ public final class ModbusTestUtils {
 	 * 
 	 * @param array
 	 *        the array to convert
-	 * @return the converted array, or {@literal null} if {@code array} is
-	 *         {@literal null}
+	 * @return the converted array, or {@code null} if {@code array} is
+	 *         {@code null}
 	 */
 	public static Byte[] byteObjectArray(byte[] array) {
 		if ( array == null ) {

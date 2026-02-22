@@ -22,6 +22,8 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * API for a Modbus exception code.
  *
@@ -32,17 +34,18 @@ public interface ModbusError {
 
 	/**
 	 * Get the error code value.
-	 * 
+	 *
 	 * @return the code value
 	 */
 	byte getCode();
 
 	/**
 	 * Get this error as a {@link ModbusErrorCode}.
-	 * 
+	 *
 	 * @return the error code enumeration value, or {@code null} if the code
 	 *         cannot be represented as one
 	 */
+	@Nullable
 	default ModbusErrorCode errorCode() {
 		try {
 			return ModbusErrorCode.forCode(getCode());

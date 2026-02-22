@@ -8,6 +8,7 @@ apply plugin: 'java-library'
 description = 'Nifty Modbus: Core Test'
 
 dependencies {
+	api "org.jspecify:jspecify:${jSpecifyVersion}"
 	api "org.slf4j:slf4j-api:${slf4jVersion}"
 	api "ch.qos.logback:logback-classic:${logbackClassicVersion}"
 	api 'org.hamcrest:hamcrest-library:2.2'

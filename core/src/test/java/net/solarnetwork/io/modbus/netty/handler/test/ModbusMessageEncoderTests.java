@@ -29,6 +29,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import io.netty.buffer.ByteBuf;
@@ -86,14 +87,15 @@ public class ModbusMessageEncoderTests {
 	public void request_notEncodable() {
 		// GIVEN
 		final ModbusMessage notModbusPayloadEncoder = new ModbusMessage() {
-			
+
+			@SuppressWarnings("NullableProblems")
 			@Override
 			public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 				return null;
 			}
 			
 			@Override
-			public boolean isSameAs(ModbusMessage obj) {
+			public boolean isSameAs(@Nullable ModbusMessage obj) {
 				return false;
 			}
 			
@@ -101,7 +103,8 @@ public class ModbusMessageEncoderTests {
 			public int getUnitId() {
 				return 0;
 			}
-			
+
+			@SuppressWarnings("NullableProblems")
 			@Override
 			public ModbusFunction getFunction() {
 				return null;

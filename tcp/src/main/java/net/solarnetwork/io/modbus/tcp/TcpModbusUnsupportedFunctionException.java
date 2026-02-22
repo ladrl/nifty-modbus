@@ -22,6 +22,7 @@
 
 package net.solarnetwork.io.modbus.tcp;
 
+import org.jspecify.annotations.Nullable;
 import net.solarnetwork.io.modbus.ModbusUnsupportedFunctionException;
 
 /**
@@ -82,7 +83,7 @@ public class TcpModbusUnsupportedFunctionException extends ModbusUnsupportedFunc
 	 *        the cause
 	 */
 	public TcpModbusUnsupportedFunctionException(byte code, short unitId, int transactionId,
-			Throwable cause) {
+			@Nullable Throwable cause) {
 		super(code, unitId, cause);
 		this.transactionId = transactionId;
 	}
@@ -102,7 +103,7 @@ public class TcpModbusUnsupportedFunctionException extends ModbusUnsupportedFunc
 	 *        the cause
 	 */
 	public TcpModbusUnsupportedFunctionException(byte code, short unitId, int transactionId,
-			String message, Throwable cause) {
+			String message, @Nullable Throwable cause) {
 		super(code, unitId, message, cause);
 		this.transactionId = transactionId;
 	}

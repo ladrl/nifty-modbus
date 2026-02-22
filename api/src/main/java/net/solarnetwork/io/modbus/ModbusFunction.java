@@ -22,9 +22,11 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * API for a Modbus function.
- * 
+ *
  * <p>
  * This API exists to support user-defined Modbus functions that are not defined
  * in the specification.
@@ -37,17 +39,18 @@ public interface ModbusFunction {
 
 	/**
 	 * Get the function code.
-	 * 
+	 *
 	 * @return the code
 	 */
 	byte getCode();
 
 	/**
 	 * Get this function as a {@link ModbusFunctionCode}.
-	 * 
+	 *
 	 * @return the function code enumeration value, or {@code null} if the code
 	 *         cannot be represented as one
 	 */
+	@Nullable
 	default ModbusFunctionCode functionCode() {
 		try {
 			return ModbusFunctionCode.forCode(getCode());
@@ -58,28 +61,28 @@ public interface ModbusFunction {
 
 	/**
 	 * Get a friendly display string for this function.
-	 * 
-	 * @return a display string
+	 *
+	 * @return a display string, never {@code null}
 	 */
 	String toDisplayString();
 
 	/**
-	 * Return {@literal true} if this function represents a read operation.
-	 * 
-	 * @return {@literal true} if this function represents a read operation,
-	 *         {@literal false} if a write operation
+	 * Return {@code true} if this function represents a read operation.
+	 *
+	 * @return {@code true} if this function represents a read operation,
+	 *         {@code false} if a write operation
 	 */
 	boolean isReadFunction();
 
 	/**
 	 * Get an "opposite" function from this function.
-	 * 
+	 *
 	 * <p>
 	 * This method is used to get a read function for a given write function,
 	 * and a write function for a given read function. Note that not all
 	 * functions have exact opposites, such that:
 	 * </p>
-	 * 
+	 *
 	 * <pre>
 	 * <code>
 	 * ModbusFunction a = myFunction();
@@ -88,14 +91,15 @@ public interface ModbusFunction {
 	 * // at this stage c is not necessarily equal to a
 	 * </code>
 	 * </pre>
-	 * 
-	 * @return the function, or {@literal null} if not applicable
+	 *
+	 * @return the function, or {@code null} if not applicable
 	 */
+	@Nullable
 	ModbusFunction oppositeFunction();
 
 	/**
 	 * Get the register block type related to this function.
-	 * 
+	 *
 	 * @return the block type
 	 */
 	ModbusBlockType blockType();

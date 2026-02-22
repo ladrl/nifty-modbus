@@ -22,9 +22,11 @@
 
 package net.solarnetwork.io.modbus.serial;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Enumeration of serial parity settings.
- * 
+ *
  * @author matt
  * @version 1.0
  */
@@ -91,7 +93,7 @@ public enum SerialParity {
 
 	/**
 	 * Get the code value.
-	 * 
+	 *
 	 * @return the code
 	 */
 	public int getCode() {
@@ -100,7 +102,7 @@ public enum SerialParity {
 
 	/**
 	 * Get an abbreviation for this parity.
-	 * 
+	 *
 	 * @return an abbreviation, one of N, O, E, M, and S for None, Odd, Even,
 	 *         Mark, and Space
 	 */
@@ -125,7 +127,7 @@ public enum SerialParity {
 
 	/**
 	 * Get an enum instance for a code value.
-	 * 
+	 *
 	 * @param code
 	 *        the code
 	 * @return the enum
@@ -156,19 +158,20 @@ public enum SerialParity {
 
 	/**
 	 * Get an enum instance for an abbreviation value.
-	 * 
+	 *
 	 * <p>
 	 * The supported abbreviations are N, O, E, M, and S for None, Odd, Even,
 	 * Mark, and Space. Lower-case versions of these are supported.
 	 * </p>
-	 * 
+	 *
 	 * @param abbreviation
 	 *        the abbreviation
-	 * @return the enum
+	 * @return the enum, or {@code null} if {@code abbreviation} is {@code null}
 	 * @throws IllegalArgumentException
 	 *         if {@code code} is not a valid value
 	 */
-	public static SerialParity forAbbreviation(String abbreviation) {
+	@Nullable
+	public static SerialParity forAbbreviation(@Nullable String abbreviation) {
 		if ( abbreviation == null ) {
 			return null;
 		}

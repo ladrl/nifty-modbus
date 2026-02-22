@@ -39,6 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,7 +95,7 @@ public class RtuNettyModbusClientTests {
 
 	private ConcurrentMap<ModbusMessage, PendingMessage> pending;
 	private EmbeddedChannel channel;
-	private RtuNettyModbusClient client;
+	private @Nullable RtuNettyModbusClient client;
 
 	@BeforeEach
 	public void setup() {

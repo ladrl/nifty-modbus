@@ -29,6 +29,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import java.math.BigInteger;
 import java.util.BitSet;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import net.solarnetwork.io.modbus.BitsModbusMessage;
 import net.solarnetwork.io.modbus.ModbusError;
@@ -71,13 +72,14 @@ public class BitsModbusMessageTests {
 	private BitsModbusMessage msg(BigInteger bits) {
 		return new BitsModbusMessage() {
 
+			@Nullable
 			@Override
 			public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 				return null;
 			}
 
 			@Override
-			public boolean isSameAs(ModbusMessage obj) {
+			public boolean isSameAs(@Nullable ModbusMessage obj) {
 				return false;
 			}
 
@@ -86,6 +88,7 @@ public class BitsModbusMessageTests {
 				return 0;
 			}
 
+			@SuppressWarnings("NullableProblems")
 			@Override
 			public ModbusFunction getFunction() {
 				return null;
@@ -148,7 +151,7 @@ public class BitsModbusMessageTests {
 		// WHEN
 		BitSet set = msg.toBitSet();
 
-		// THEN		
+		// THEN
 		assertThat("BitSet generated", set, is(notNullValue()));
 		assertThat("BitSet bit tests", set.get(0), is(equalTo(true)));
 		assertThat("BitSet bit tests", set.get(1), is(equalTo(false)));
@@ -167,7 +170,7 @@ public class BitsModbusMessageTests {
 		// WHEN
 		BitSet set = msg.toBitSet();
 
-		// THEN		
+		// THEN
 		assertThat("BitSet not generated if bits are null", set, is(nullValue()));
 	}
 

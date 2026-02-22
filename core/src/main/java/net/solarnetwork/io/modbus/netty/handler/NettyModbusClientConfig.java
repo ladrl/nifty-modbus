@@ -55,7 +55,7 @@ public abstract class NettyModbusClientConfig implements ModbusClientConfig {
 	 * Set the automatic reconnection setting.
 	 * 
 	 * @param autoReconnect
-	 *        {@literal true} to automatically reconnect
+	 *        {@code true} to automatically reconnect
 	 */
 	public void setAutoReconnect(boolean autoReconnect) {
 		this.autoReconnect = autoReconnect;

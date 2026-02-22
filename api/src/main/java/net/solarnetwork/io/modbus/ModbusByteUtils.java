@@ -22,6 +22,8 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * Utilities for Modbus byte manipulation.
  *
@@ -136,7 +138,7 @@ public final class ModbusByteUtils {
 	 *
 	 * @param s
 	 *        the string to decode
-	 * @return the bytes, never {@literal null}
+	 * @return the bytes, never {@code null}
 	 * @see #decodeHexPadStart(char[])
 	 */
 	public static byte[] decodeHexString(String s) {
@@ -156,9 +158,9 @@ public final class ModbusByteUtils {
 	 *
 	 * @param chars
 	 *        the characters to decode
-	 * @return the bytes, never {@literal null}
+	 * @return the bytes, never {@code null}
 	 */
-	public static byte[] decodeHexPadStart(final char[] chars) {
+	public static byte[] decodeHexPadStart(final char @Nullable [] chars) {
 		if ( chars == null || chars.length < 1 ) {
 			return new byte[0];
 		}
@@ -191,9 +193,10 @@ public final class ModbusByteUtils {
 	 *        the starting index within {@code data} to encode (inclusive)
 	 * @param toIndex
 	 *        the ending index within {@code data} to encode (exclusive)
-	 * @return the string, never {@literal null}
+	 * @return the string, never {@code null}
 	 */
-	public static String encodeHexString(final byte[] data, final int fromIndex, final int toIndex) {
+	public static String encodeHexString(final byte @Nullable [] data, final int fromIndex,
+			final int toIndex) {
 		return encodeHexString(data, fromIndex, toIndex, false, false);
 	}
 
@@ -207,11 +210,11 @@ public final class ModbusByteUtils {
 	 * @param toIndex
 	 *        the ending index within {@code data} to encode (exclusive)
 	 * @param space
-	 *        {@literal true} to add a single space character between each hex
-	 * @return the string, never {@literal null}
+	 *        {@code true} to add a single space character between each hex
+	 * @return the string, never {@code null}
 	 */
-	public static String encodeHexString(final byte[] data, final int fromIndex, final int toIndex,
-			final boolean space) {
+	public static String encodeHexString(final byte @Nullable [] data, final int fromIndex,
+			final int toIndex, final boolean space) {
 		return encodeHexString(data, fromIndex, toIndex, space, false);
 	}
 
@@ -225,14 +228,13 @@ public final class ModbusByteUtils {
 	 * @param toIndex
 	 *        the ending index within {@code data} to encode (exclusive)
 	 * @param space
-	 *        {@literal true} to add a single space character between each hex
+	 *        {@code true} to add a single space character between each hex
 	 * @param lowerCase
-	 *        {@literal true} to use lower case, {@literal false} for upper case
-	 *        pair
-	 * @return the string, never {@literal null}
+	 *        {@code true} to use lower case, {@code false} for upper case pair
+	 * @return the string, never {@code null}
 	 */
-	public static String encodeHexString(final byte[] data, final int fromIndex, final int toIndex,
-			final boolean space, final boolean lowerCase) {
+	public static String encodeHexString(final byte @Nullable [] data, final int fromIndex,
+			final int toIndex, final boolean space, final boolean lowerCase) {
 		if ( data == null || data.length < 1 || fromIndex < 0 || fromIndex >= data.length || toIndex < 0
 				|| toIndex <= fromIndex ) {
 			return "";
@@ -255,10 +257,10 @@ public final class ModbusByteUtils {
 	 *
 	 * @param registers
 	 *        the 16-bit register values, treated as unsigned values
-	 * @return the raw data, or {@literal null} if {@code registers} is
-	 *         {@literal null}
+	 * @return the raw data, or {@code null} if {@code registers} is
+	 *         {@code null}
 	 */
-	public static byte[] encode(short[] registers) {
+	public static byte @Nullable [] encode(short @Nullable [] registers) {
 		if ( registers == null ) {
 			return null;
 		}
@@ -278,7 +280,7 @@ public final class ModbusByteUtils {
 	 * @param offset
 	 *        the offset within {@code dest} to start at
 	 */
-	public static void encode(short[] registers, byte[] dest, int offset) {
+	public static void encode(short @Nullable [] registers, byte[] dest, int offset) {
 		if ( registers == null ) {
 			return;
 		}
@@ -294,10 +296,10 @@ public final class ModbusByteUtils {
 	 *
 	 * @param registers
 	 *        the 16-bit register values, treated as unsigned 16-bit values
-	 * @return the raw data, or {@literal null} if {@code registers} is
-	 *         {@literal null}
+	 * @return the raw data, or {@code null} if {@code registers} is
+	 *         {@code null}
 	 */
-	public static byte[] encodeUnsigned(int[] registers) {
+	public static byte @Nullable [] encodeUnsigned(int @Nullable [] registers) {
 		if ( registers == null ) {
 			return null;
 		}
@@ -316,10 +318,10 @@ public final class ModbusByteUtils {
 	 * @param data
 	 *        the data
 	 * @return a copy of the data as an array of signed 16-bit values in
-	 *         most-to-least (big endian) byte order, or {@literal null} if
-	 *         {@code data} is {@literal null}
+	 *         most-to-least (big endian) byte order, or {@code null} if
+	 *         {@code data} is {@code null}
 	 */
-	public static short[] decode(byte[] data) {
+	public static short @Nullable [] decode(byte @Nullable [] data) {
 		if ( data == null ) {
 			return null;
 		}
@@ -336,10 +338,10 @@ public final class ModbusByteUtils {
 	 * @param end
 	 *        the ending offset with data, exclusive
 	 * @return a copy of the data as an array of signed 16-bit values in
-	 *         most-to-least (big endian) byte order, or {@literal null} if
-	 *         {@code data} is {@literal null}
+	 *         most-to-least (big endian) byte order, or {@code null} if
+	 *         {@code data} is {@code null}
 	 */
-	public static short[] decode(byte[] data, int start, int end) {
+	public static short @Nullable [] decode(byte @Nullable [] data, int start, int end) {
 		if ( data == null ) {
 			return null;
 		}
@@ -360,10 +362,10 @@ public final class ModbusByteUtils {
 	 *        the data
 	 * @return a copy of the data as an array of unsigned 16-bit values in
 	 *         most-to-least (big endian) byte order, represented as 32-bit int
-	 *         values to maintain as unsigned values, or {@literal null} if
-	 *         {@code data} is {@literal null}
+	 *         values to maintain as unsigned values, or {@code null} if
+	 *         {@code data} is {@code null}
 	 */
-	public static int[] decodeUnsigned(byte[] data) {
+	public static int @Nullable [] decodeUnsigned(byte @Nullable [] data) {
 		if ( data == null ) {
 			return null;
 		}
@@ -381,10 +383,10 @@ public final class ModbusByteUtils {
 	 *        the ending offset with data, exclusive
 	 * @return a copy of the data as an array of unsigned 16-bit values in
 	 *         most-to-least (big endian) byte order, represented as 32-bit int
-	 *         values to maintain as unsigned values, or {@literal null} if
-	 *         {@code data} is {@literal null}
+	 *         values to maintain as unsigned values, or {@code null} if
+	 *         {@code data} is {@code null}
 	 */
-	public static int[] decodeUnsigned(byte[] data, int start, int end) {
+	public static int @Nullable [] decodeUnsigned(byte @Nullable [] data, int start, int end) {
 		if ( data == null ) {
 			return null;
 		}
@@ -407,7 +409,7 @@ public final class ModbusByteUtils {
 	 * @param data
 	 *        the data to reverse
 	 */
-	public static void reverse(final byte[] data) {
+	public static void reverse(final byte @Nullable [] data) {
 		if ( data == null ) {
 			return;
 		}

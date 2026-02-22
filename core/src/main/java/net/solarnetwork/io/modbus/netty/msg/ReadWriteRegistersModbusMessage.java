@@ -23,6 +23,7 @@
 package net.solarnetwork.io.modbus.netty.msg;
 
 import static net.solarnetwork.io.modbus.ModbusByteUtils.encode16;
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBuf;
 import net.solarnetwork.io.modbus.ModbusByteUtils;
 import net.solarnetwork.io.modbus.ModbusError;
@@ -80,7 +81,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	 *         if {@code function} is not valid
 	 */
 	public ReadWriteRegistersModbusMessage(int unitId, byte function, int address, int count,
-			byte[] data) {
+			byte @Nullable [] data) {
 		this(unitId, ModbusFunctionCode.valueOf(function), null, address, count, data);
 	}
 
@@ -104,7 +105,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	 *         if {@code function} or {@code error} are not valid
 	 */
 	public ReadWriteRegistersModbusMessage(int unitId, byte function, byte error, int address, int count,
-			byte[] data) {
+			byte @Nullable [] data) {
 		this(unitId, ModbusFunctionCode.valueOf(function), ModbusErrorCode.valueOf(error), address,
 				count, data);
 	}
@@ -117,7 +118,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	 * @param function
 	 *        the function
 	 * @param error
-	 *        the error, or {@literal null} if no error
+	 *        the error, or {@code null} if no error
 	 * @param address
 	 *        the read address
 	 * @param count
@@ -126,11 +127,11 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	 *        the register data, in most-to-least byte order (e.g. big endian);
 	 *        note the array is <b>not</b> copied
 	 * @throws IllegalArgumentException
-	 *         if {@code function} is {@literal null}, or if {@code data} does
-	 *         not have an even length (divisible by 2)
+	 *         if {@code function} is {@code null}, or if {@code data} does not
+	 *         have an even length (divisible by 2)
 	 */
 	public ReadWriteRegistersModbusMessage(int unitId, ModbusFunction function, ModbusError error,
-			int address, int count, byte[] data) {
+			int address, int count, byte @Nullable [] data) {
 		super(unitId, function, error, address, count, data);
 	}
 
@@ -150,7 +151,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	 * @return the new message
 	 */
 	public static ReadWriteRegistersModbusMessage readWriteHoldingsRequest(int unitId, int address,
-			int count, int writeAddress, short[] values) {
+			int count, int writeAddress, short @Nullable [] values) {
 		if ( count < 1 ) {
 			throw new IllegalArgumentException("Count to read must be provided.");
 		} else if ( count > MAX_READ_REGISTERS_COUNT ) {
@@ -185,7 +186,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	 * @return the new message
 	 */
 	public static ReadWriteRegistersModbusMessage readWriteHoldingsResponse(int unitId, int address,
-			short[] values) {
+			short @Nullable [] values) {
 		final int count = (values != null ? values.length : 0);
 		if ( count < 1 ) {
 			throw new IllegalArgumentException("Count read must be provided.");
@@ -215,7 +216,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	 * @param in
 	 *        the input, assumed to be positioned after the function code byte
 	 *        in the payload
-	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @return the message, or {@code null} if a message cannot be decoded
 	 */
 	public static ModbusMessage decodeRequestPayload(final int unitId, final byte functionCode,
 			final int address, final int count, final ByteBuf in) {
@@ -263,7 +264,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	 * @param in
 	 *        the input, assumed to be positioned after the function code byte
 	 *        in the payload
-	 * @return the message, or {@literal null} if a message cannot be decoded
+	 * @return the message, or {@code null} if a message cannot be decoded
 	 */
 	public static ModbusMessage decodeResponsePayload(final int unitId, final byte functionCode,
 			final int address, final int count, final ByteBuf in) {
@@ -294,7 +295,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 		return new ReadWriteRegistersModbusMessage(unitId, fn, error, address, cnt, data);
 	}
 
-	private boolean isResponse(final byte[] data) {
+	private boolean isResponse(final byte @Nullable [] data) {
 		// if data != null, it will have length > 1
 		return (data != null && data[0] == READ_WRITE_RESPONSE_FLAG_BYTE
 				&& data[1] == READ_WRITE_RESPONSE_FLAG_BYTE);
@@ -353,7 +354,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	}
 
 	@Override
-	public byte[] dataCopy() {
+	public byte @Nullable [] dataCopy() {
 		final byte[] data = data();
 		if ( !isResponse(data) ) {
 			return null;
@@ -364,7 +365,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	}
 
 	@Override
-	public short[] dataDecode() {
+	public short @Nullable [] dataDecode() {
 		final byte[] data = data();
 		if ( !isResponse(data) ) {
 			return null;
@@ -373,7 +374,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	}
 
 	@Override
-	public int[] dataDecodeUnsigned() {
+	public int @Nullable [] dataDecodeUnsigned() {
 		final byte[] data = data();
 		if ( !isResponse(data) ) {
 			return null;
@@ -391,7 +392,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	}
 
 	@Override
-	public short[] writeDataDecode() {
+	public short @Nullable [] writeDataDecode() {
 		final byte[] data = data();
 		if ( isResponse(data) ) {
 			return null;
@@ -400,7 +401,7 @@ public class ReadWriteRegistersModbusMessage extends RegistersModbusMessage
 	}
 
 	@Override
-	public int[] writeDataDecodeUnsigned() {
+	public int @Nullable [] writeDataDecodeUnsigned() {
 		final byte[] data = data();
 		if ( isResponse(data) ) {
 			return null;

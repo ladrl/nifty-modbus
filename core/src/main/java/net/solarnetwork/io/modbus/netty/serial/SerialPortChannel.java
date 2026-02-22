@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.SocketAddress;
 import java.util.concurrent.TimeUnit;
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.AbstractChannel;
@@ -59,13 +60,13 @@ public class SerialPortChannel extends AbstractChannel {
 	private final SerialPortChannelConfig config;
 
 	private boolean open;
-	private SerialAddress deviceAddress;
-	private SerialPort serialPort;
+	private @Nullable SerialAddress deviceAddress;
+	private @Nullable SerialPort serialPort;
 
-	private InputStream serialPortIn;
-	private OutputStream serialPortOut;
+	private @Nullable InputStream serialPortIn;
+	private @Nullable OutputStream serialPortOut;
 
-	boolean readPending;
+	private boolean readPending;
 
 	/**
 	 * Constructor.
@@ -78,7 +79,7 @@ public class SerialPortChannel extends AbstractChannel {
 	 * @param serialPortProvider
 	 *        the serial port provider
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	@SuppressWarnings("this-escape")
 	public SerialPortChannel(SerialPortProvider serialPortProvider) {
@@ -133,6 +134,7 @@ public class SerialPortChannel extends AbstractChannel {
 		return (SerialAddress) super.localAddress();
 	}
 
+	@Nullable
 	@Override
 	public SerialAddress remoteAddress() {
 		return (SerialAddress) super.remoteAddress();
@@ -143,6 +145,7 @@ public class SerialPortChannel extends AbstractChannel {
 		return LOCAL_ADDRESS;
 	}
 
+	@Nullable
 	@Override
 	protected SerialAddress remoteAddress0() {
 		return deviceAddress;
@@ -208,6 +211,7 @@ public class SerialPortChannel extends AbstractChannel {
 		eventLoop().execute(this::doRead);
 	}
 
+	@Nullable
 	private InputStream serialIn() throws IOException {
 		if ( serialPortIn != null ) {
 			return serialPortIn;
@@ -372,6 +376,7 @@ public class SerialPortChannel extends AbstractChannel {
 		}
 	}
 
+	@Nullable
 	private OutputStream serialOut() throws IOException {
 		if ( serialPortOut != null ) {
 			return serialPortOut;

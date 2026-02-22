@@ -22,6 +22,7 @@
 
 package net.solarnetwork.io.modbus.rtu.netty;
 
+import org.jspecify.annotations.Nullable;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.solarnetwork.io.modbus.ModbusByteUtils;
@@ -137,7 +138,7 @@ public class RtuModbusMessage
 	}
 
 	@Override
-	public boolean isSameAs(ModbusMessage obj) {
+	public boolean isSameAs(@Nullable ModbusMessage obj) {
 		if ( obj == this ) {
 			return true;
 		}
@@ -152,6 +153,7 @@ public class RtuModbusMessage
 	}
 
 	@SuppressWarnings("unchecked")
+	@Nullable
 	@Override
 	public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 		if ( msgType.isAssignableFrom(body.getClass()) ) {
@@ -228,6 +230,7 @@ public class RtuModbusMessage
 		return body.getFunction();
 	}
 
+	@Nullable
 	@Override
 	public ModbusError getError() {
 		return body.getError();

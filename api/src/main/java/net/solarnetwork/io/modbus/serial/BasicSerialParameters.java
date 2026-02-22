@@ -25,6 +25,7 @@ package net.solarnetwork.io.modbus.serial;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Basic implementation of {@link SerialParameters}.
@@ -38,10 +39,10 @@ public class BasicSerialParameters implements SerialParameters {
 	private int dataBits = DEFAULT_DATA_BITS;
 	private SerialStopBits stopBits = DEFAULT_STOP_BITS;
 	private SerialParity parity = DEFAULT_PARITY;
-	private Set<SerialFlowControl> flowControl;
+	private @Nullable Set<SerialFlowControl> flowControl;
 	private int waitTime;
 	private int readTimeout = DEFAULT_READ_TIMEOUT;
-	private Boolean rs485ModeEnabled;
+	private @Nullable Boolean rs485ModeEnabled;
 	private boolean rs485RtsHighEnabled = DEFAULT_RS485_RTS_HIGH_ENABLED;
 	private boolean rs485TerminationEnabled;
 	private boolean rs485EchoEnabled;
@@ -94,7 +95,7 @@ public class BasicSerialParameters implements SerialParameters {
 	 *        an RS-485 flags string as returned from
 	 *        {@link SerialParameters#rs485Flags()}
 	 */
-	public void populateRs485Flags(String flags) {
+	public void populateRs485Flags(@Nullable String flags) {
 		if ( flags == null || flags.isEmpty() ) {
 			return;
 		}
@@ -187,6 +188,7 @@ public class BasicSerialParameters implements SerialParameters {
 		this.parity = parity;
 	}
 
+	@Nullable
 	@Override
 	public Set<SerialFlowControl> getFlowControl() {
 		return flowControl;
@@ -196,9 +198,9 @@ public class BasicSerialParameters implements SerialParameters {
 	 * Set the flow control.
 	 *
 	 * @param flowControl
-	 *        the flow control, or {@literal null} for none
+	 *        the flow control, or {@code null} for none
 	 */
-	public void setFlowControl(Set<SerialFlowControl> flowControl) {
+	public void setFlowControl(@Nullable Set<SerialFlowControl> flowControl) {
 		this.flowControl = flowControl;
 	}
 
@@ -232,6 +234,7 @@ public class BasicSerialParameters implements SerialParameters {
 		this.readTimeout = readTimeout;
 	}
 
+	@Nullable
 	@Override
 	public Boolean getRs485ModeEnabled() {
 		return rs485ModeEnabled;
@@ -241,14 +244,14 @@ public class BasicSerialParameters implements SerialParameters {
 	 * Set the RS-485 mode.
 	 *
 	 * <p>
-	 * When this is set to {@literal true} then the other {@code getRs485*}
+	 * When this is set to {@code true} then the other {@code getRs485*}
 	 * settings are used.
 	 * </p>
 	 *
 	 * @param rs485ModeEnabled
-	 *        {@literal true} to enable RS-485 mode
+	 *        {@code true} to enable RS-485 mode
 	 */
-	public void setRs485ModeEnabled(Boolean rs485ModeEnabled) {
+	public void setRs485ModeEnabled(@Nullable Boolean rs485ModeEnabled) {
 		this.rs485ModeEnabled = rs485ModeEnabled;
 	}
 
@@ -261,7 +264,7 @@ public class BasicSerialParameters implements SerialParameters {
 	 * Set the RS-485 RTS "high" mode.
 	 *
 	 * @param rs485RtsHighEnabled
-	 *        {@literal true} to set the RTS line high (to 1) when transmitting
+	 *        {@code true} to set the RTS line high (to 1) when transmitting
 	 */
 	public void setRs485RtsHighEnabled(boolean rs485RtsHighEnabled) {
 		this.rs485RtsHighEnabled = rs485RtsHighEnabled;
@@ -276,7 +279,7 @@ public class BasicSerialParameters implements SerialParameters {
 	 * Set the RS-485 termination mode.
 	 *
 	 * @param rs485TerminationEnabled
-	 *        {@literal true} to enable RS-485 bus termination
+	 *        {@code true} to enable RS-485 bus termination
 	 */
 	public void setRs485TerminationEnabled(boolean rs485TerminationEnabled) {
 		this.rs485TerminationEnabled = rs485TerminationEnabled;
@@ -291,7 +294,7 @@ public class BasicSerialParameters implements SerialParameters {
 	 * Set the RS-485 "echo" mode.
 	 *
 	 * @param rs485EchoEnabled
-	 *        {@literal true} to enable receive during transmit
+	 *        {@code true} to enable receive during transmit
 	 */
 	public void setRs485EchoEnabled(boolean rs485EchoEnabled) {
 		this.rs485EchoEnabled = rs485EchoEnabled;

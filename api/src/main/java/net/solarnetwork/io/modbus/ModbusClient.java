@@ -23,6 +23,7 @@
 package net.solarnetwork.io.modbus;
 
 import java.util.concurrent.CompletableFuture;
+import org.jspecify.annotations.Nullable;
 
 /**
  * API for a Modbus client application.
@@ -34,21 +35,21 @@ public interface ModbusClient {
 
 	/**
 	 * Get the client configuration.
-	 * 
+	 *
 	 * @return the client configuration
 	 */
 	ModbusClientConfig getClientConfig();
 
 	/**
 	 * Start the client.
-	 * 
+	 *
 	 * <p>
 	 * This method must be called before using the {@link #send(ModbusMessage)}
 	 * or {@link #sendAsync(ModbusMessage)} methods. Calling this method on a
 	 * client that has already been started is allowed, and will return the same
 	 * result as first returned.
 	 * </p>
-	 * 
+	 *
 	 * @return a future that completes when the client is ready to be used
 	 */
 	CompletableFuture<?> start();
@@ -56,51 +57,50 @@ public interface ModbusClient {
 	/**
 	 * Test if the client has been started by a call to {@link #start()}
 	 * already.
-	 * 
+	 *
 	 * <p>
-	 * This will return {@literal true} if {@link #start()} has been called,
-	 * until {@link #stop()} is called.
+	 * This will return {@code true} if {@link #start()} has been called, until
+	 * {@link #stop()} is called.
 	 * </p>
-	 * 
-	 * @return {@literal true} if the client has been started (and not stopped)
+	 *
+	 * @return {@code true} if the client has been started (and not stopped)
 	 */
 	boolean isStarted();
 
 	/**
 	 * Stop the client.
-	 * 
+	 *
 	 * <p>
 	 * This method shuts the client down, disconnecting it from whatever Modbus
 	 * network it had been connected to. It can be started again by calling
 	 * {@link #start()}. Calling this method on a client that has already been
 	 * stopped is allowed and will not result in any error.
 	 * </p>
-	 * 
+	 *
 	 * <p>
-	 * After calling this method {@link #isStarted()} will return
-	 * {@literal false}.
+	 * After calling this method {@link #isStarted()} will return {@code false}.
 	 * </p>
-	 * 
+	 *
 	 * @return a future that completes when the client is shut down completely
 	 */
 	CompletableFuture<?> stop();
 
 	/**
 	 * Test if the client is started and connected to the Modbus network.
-	 * 
+	 *
 	 * <p>
 	 * Some clients may automatically reconnect to the network if the connection
 	 * fails for any reason. After the connection has failed, and until it
-	 * reconnects, this method will return {@literal false}.
+	 * reconnects, this method will return {@code false}.
 	 * </p>
-	 * 
-	 * @return {@literal true} if the client is connected
+	 *
+	 * @return {@code true} if the client is connected
 	 */
 	boolean isConnected();
 
 	/**
 	 * Send a request and receive a response, synchronously.
-	 * 
+	 *
 	 * @param request
 	 *        the request to send
 	 * @return the response
@@ -113,7 +113,7 @@ public interface ModbusClient {
 
 	/**
 	 * Send a request and receive a response, asynchronously.
-	 * 
+	 *
 	 * @param request
 	 *        the request to send
 	 * @return the response future
@@ -122,10 +122,10 @@ public interface ModbusClient {
 
 	/**
 	 * Configure a connection observer.
-	 * 
+	 *
 	 * @param connectionObserver
-	 *        the observer to set, or {@literal null} to clear
+	 *        the observer to set, or {@code null} to clear
 	 */
-	void setConnectionObserver(ModbusClientConnectionObserver connectionObserver);
+	void setConnectionObserver(@Nullable ModbusClientConnectionObserver connectionObserver);
 
 }

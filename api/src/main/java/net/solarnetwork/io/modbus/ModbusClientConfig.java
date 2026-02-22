@@ -39,9 +39,9 @@ public interface ModbusClientConfig {
 	/**
 	 * Get the "auto reconnect" setting.
 	 * 
-	 * @return {@literal true} if the Modbus connection should try to maintain a
+	 * @return {@code true} if the Modbus connection should try to maintain a
 	 *         persistent connection, and reestablish it if it fails/closes/ends
-	 *         for any reason; {@literal false} to not automatically reestablish
+	 *         for any reason; {@code false} to not automatically reestablish
 	 *         the connection if it fails
 	 */
 	default boolean isAutoReconnect() {
@@ -55,7 +55,7 @@ public interface ModbusClientConfig {
 	 * 
 	 * @return the number of seconds to delay before attempting to reestablish a
 	 *         failed/closed/ended connection and {@link #isAutoReconnect()}
-	 *         returns {@literal true}
+	 *         returns {@code true}
 	 */
 	default long getAutoReconnectDelaySeconds() {
 		return DEFAULT_RECONNECT_DELAY_SECS;
@@ -71,7 +71,7 @@ public interface ModbusClientConfig {
 	 * port name or TCP host and port.
 	 * </p>
 	 * 
-	 * @return the configuration description, never {@literal null}
+	 * @return the configuration description, never {@code null}
 	 */
 	String getDescription();
 

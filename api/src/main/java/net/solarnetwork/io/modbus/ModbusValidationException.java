@@ -22,6 +22,8 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * An exception thrown when a Modbus validation fails.
  *
@@ -48,7 +50,7 @@ public class ModbusValidationException extends ModbusException {
 	 * @param cause
 	 *        the cause
 	 */
-	public ModbusValidationException(Throwable cause) {
+	public ModbusValidationException(@Nullable Throwable cause) {
 		super(cause);
 	}
 
@@ -60,7 +62,7 @@ public class ModbusValidationException extends ModbusException {
 	 * @param cause
 	 *        the cause
 	 */
-	public ModbusValidationException(String message, Throwable cause) {
+	public ModbusValidationException(String message, @Nullable Throwable cause) {
 		super(message, cause);
 	}
 

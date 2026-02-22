@@ -24,6 +24,7 @@ package net.solarnetwork.io.modbus;
 
 import java.math.BigInteger;
 import java.util.BitSet;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A Modbus message related to a bit-based (coil/discrete) register address
@@ -36,12 +37,13 @@ public interface BitsModbusMessage extends AddressedModbusMessage {
 
 	/**
 	 * Get a BigInteger for a BitSet.
-	 * 
+	 *
 	 * @param set
-	 *        the set
-	 * @return the bit integer
+	 *        the set; if {@code null} then {@code BigInteger.ZERO} will be
+	 *        returned
+	 * @return the bit integer, never {@code null}
 	 */
-	static BigInteger bitsForBitSet(BitSet set) {
+	static BigInteger bitsForBitSet(@Nullable BitSet set) {
 		if ( set == null ) {
 			return BigInteger.ZERO;
 		}
@@ -50,17 +52,18 @@ public interface BitsModbusMessage extends AddressedModbusMessage {
 
 	/**
 	 * Get the bits.
-	 * 
-	 * @return the bits, or {@literal null} if no data
+	 *
+	 * @return the bits, or {@code null} if no data
 	 */
+	@Nullable
 	BigInteger getBits();
 
 	/**
 	 * Test if a specific bit is enabled.
-	 * 
+	 *
 	 * @param idx
 	 *        the index of the bit to test
-	 * @return {@literal true} if that bit is set
+	 * @return {@code true} if that bit is set
 	 */
 	default boolean isBitEnabled(final int idx) {
 		if ( idx < 0 ) {
@@ -75,10 +78,11 @@ public interface BitsModbusMessage extends AddressedModbusMessage {
 
 	/**
 	 * Get a {@code BitSet} value for the bit data.
-	 * 
-	 * @return the new set, or {@literal null} if {@link #getBits()} returns
-	 *         {@literal null}
+	 *
+	 * @return the new set, or {@code null} if {@link #getBits()} returns
+	 *         {@code null}
 	 */
+	@Nullable
 	default BitSet toBitSet() {
 		BigInteger bits = getBits();
 		if ( bits == null ) {

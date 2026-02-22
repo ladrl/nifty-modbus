@@ -22,6 +22,8 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * API for an observer of ModbusClient connection state.
  *
@@ -32,7 +34,7 @@ public interface ModbusClientConnectionObserver {
 
 	/**
 	 * A connection has been established.
-	 * 
+	 *
 	 * @param client
 	 *        the client that has established the connection
 	 * @param config
@@ -42,7 +44,7 @@ public interface ModbusClientConnectionObserver {
 
 	/**
 	 * A connection has been closed.
-	 * 
+	 *
 	 * @param client
 	 *        the client whose connection has been closed
 	 * @param config
@@ -50,10 +52,10 @@ public interface ModbusClientConnectionObserver {
 	 * @param exception
 	 *        an exception, if any
 	 * @param willReconnect
-	 *        {@literal true} if the client will automatically attempt to
+	 *        {@code true} if the client will automatically attempt to
 	 *        re-establish the connection
 	 */
-	void connectionClosed(ModbusClient client, ModbusClientConfig config, Throwable exception,
+	void connectionClosed(ModbusClient client, ModbusClientConfig config, @Nullable Throwable exception,
 			boolean willReconnect);
 
 }

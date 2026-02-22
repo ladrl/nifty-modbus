@@ -30,6 +30,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.stream.Collectors;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.solarnetwork.io.modbus.serial.SerialParameters;
@@ -53,14 +54,16 @@ public class PjcSerialPort implements net.solarnetwork.io.modbus.serial.SerialPo
 	private static final Logger log = LoggerFactory.getLogger(PjcSerialPort.class);
 
 	private final String name;
-	private SerialPort serialPort;
+	private @Nullable SerialPort serialPort;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param name
 	 *        the device name of the serial port to use, such as
-	 *        {@literal /dev/ttyUSB0} or {@literal COM1}
+	 *        {@literal /dev/ttyUSB0} or {@literal COM1}]
+	 * @throws IllegalArgumentException
+	 *         if {@code name} is {@code null} or empty
 	 */
 	public PjcSerialPort(String name) {
 		super();

@@ -28,6 +28,7 @@ import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -66,13 +67,14 @@ public class ModbusMessageUtilsTests {
 		final ByteBuf buf = Unpooled.buffer(8);
 		final ModbusMessage msg = new ModbusMessage() {
 
+			@Nullable
 			@Override
 			public <T extends ModbusMessage> T unwrap(Class<T> msgType) {
 				return null;
 			}
 
 			@Override
-			public boolean isSameAs(ModbusMessage obj) {
+			public boolean isSameAs(@Nullable ModbusMessage obj) {
 				return false;
 			}
 
@@ -81,6 +83,7 @@ public class ModbusMessageUtilsTests {
 				return 0;
 			}
 
+			@SuppressWarnings("NullableProblems")
 			@Override
 			public ModbusFunction getFunction() {
 				return null;

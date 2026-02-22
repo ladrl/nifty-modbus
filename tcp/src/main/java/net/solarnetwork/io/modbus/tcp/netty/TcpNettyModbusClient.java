@@ -30,6 +30,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.IntSupplier;
+import org.jspecify.annotations.Nullable;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -70,7 +71,7 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 	private EventLoopGroup eventLoopGroup;
 
 	/** A future for stopping the private event loop group. */
-	private CompletableFuture<?> eventLoopGroupStopFuture;
+	private @Nullable CompletableFuture<?> eventLoopGroupStopFuture;
 
 	/**
 	 * Constructor.
@@ -93,13 +94,13 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param eventLoopGroup
-	 *        the event loop group, or {@literal null} to create an internal one
+	 *        the event loop group, or {@code null} to create an internal one
 	 * @param channelClass
-	 *        the channel class, or {@literal null} to use a default
+	 *        the channel class, or {@code null} to use a default
 	 *        {@link EventLoopGroup}
 	 */
-	public TcpNettyModbusClient(TcpModbusClientConfig clientConfig, EventLoopGroup eventLoopGroup,
-			Class<? extends Channel> channelClass) {
+	public TcpNettyModbusClient(TcpModbusClientConfig clientConfig,
+			@Nullable EventLoopGroup eventLoopGroup, @Nullable Class<? extends Channel> channelClass) {
 		this(clientConfig, null, new ConcurrentHashMap<>(8, 0.9f, 2), eventLoopGroup, channelClass,
 				new ConcurrentHashMap<>(8, 0.9f, 2), SimpleTransactionIdSupplier.INSTANCE);
 	}
@@ -122,7 +123,7 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 	 *        a TCP Modbus transaction ID supplier; only values from 1-65535
 	 *        should be supplied
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public TcpNettyModbusClient(TcpModbusClientConfig clientConfig,
 			ConcurrentMap<ModbusMessage, PendingMessage> pending,
@@ -137,13 +138,13 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param scheduler
-	 *        the scheduler, or {@literal null} to create an internal one
+	 *        the scheduler, or {@code null} to create an internal one
 	 * @param pending
 	 *        a map for request messages pending responses
 	 * @param eventLoopGroup
-	 *        the event loop group, or {@literal null} to create an internal one
+	 *        the event loop group, or {@code null} to create an internal one
 	 * @param channelClass
-	 *        the channel class, or {@literal null} to use a default
+	 *        the channel class, or {@code null} to use a default
 	 *        {@link EventLoopGroup}
 	 * @param pendingMessages
 	 *        a mapping of transaction IDs to associated pendingMessages, to
@@ -152,11 +153,12 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 	 *        a TCP Modbus transaction ID supplier; only values from 1-65535
 	 *        should be supplied
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
-	public TcpNettyModbusClient(TcpModbusClientConfig clientConfig, ScheduledExecutorService scheduler,
-			ConcurrentMap<ModbusMessage, PendingMessage> pending, EventLoopGroup eventLoopGroup,
-			Class<? extends Channel> channelClass,
+	public TcpNettyModbusClient(TcpModbusClientConfig clientConfig,
+			@Nullable ScheduledExecutorService scheduler,
+			ConcurrentMap<ModbusMessage, PendingMessage> pending,
+			@Nullable EventLoopGroup eventLoopGroup, @Nullable Class<? extends Channel> channelClass,
 			ConcurrentMap<Integer, TcpModbusMessage> pendingMessages,
 			IntSupplier transactionIdSupplier) {
 		super(clientConfig, scheduler, pending);

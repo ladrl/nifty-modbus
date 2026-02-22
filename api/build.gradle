@@ -11,6 +11,8 @@ apply plugin: 'com.vanniktech.maven.publish'
 description = 'Nifty Modbus: API'
 
 dependencies {
+	api "org.jspecify:jspecify:${jSpecifyVersion}"
+
 	// Testing
 	testImplementation project(':nifty-modbus-test')
 }

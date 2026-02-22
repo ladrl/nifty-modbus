@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.netty.bootstrap.Bootstrap;
@@ -71,13 +72,13 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	private final SerialPortProvider serialPortProvider;
 	private final boolean privateEventLoopGroup;
 
-	private BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler;
-	private BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler;
-	private BiFunction<String, Boolean, Boolean> clientConnectionListener;
+	private @Nullable BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler;
+	private @Nullable BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler;
+	private @Nullable BiFunction<String, Boolean, Boolean> clientConnectionListener;
 	private boolean wireLogging;
 
-	private EventLoopGroup eventLoopGroup;
-	private Channel channel;
+	private @Nullable EventLoopGroup eventLoopGroup;
+	private @Nullable Channel channel;
 
 	/**
 	 * Constructor.
@@ -89,7 +90,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 * @param serialPortProvider
 	 *        the serial port provider
 	 * @throws IllegalArgumentException
-	 *         if any argument is {@literal null}
+	 *         if any argument is {@code null}
 	 */
 	public NettyRtuModbusServer(String device, SerialParameters serialParameters,
 			SerialPortProvider serialPortProvider) {
@@ -106,12 +107,12 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 * @param serialPortProvider
 	 *        the serial port provider
 	 * @param eventLoopGroup
-	 *        the event loop group, or {@literal null} to create an internal one
+	 *        the event loop group, or {@code null} to create an internal one
 	 * @throws IllegalArgumentException
-	 *         if any argument except {@code eventLoopGroup} is {@literal null}
+	 *         if any argument except {@code eventLoopGroup} is {@code null}
 	 */
 	public NettyRtuModbusServer(String device, SerialParameters serialParameters,
-			SerialPortProvider serialPortProvider, EventLoopGroup eventLoopGroup) {
+			SerialPortProvider serialPortProvider, @Nullable EventLoopGroup eventLoopGroup) {
 		super();
 		if ( device == null ) {
 			throw new IllegalArgumentException("The device argument must not be null.");
@@ -344,6 +345,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 * 
 	 * @return the handler
 	 */
+	@Nullable
 	public BiConsumer<ModbusMessage, Consumer<ModbusMessage>> getMessageHandler() {
 		return messageHandler;
 	}
@@ -359,7 +361,8 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 * @param messageHandler
 	 *        the handler to set
 	 */
-	public void setMessageHandler(BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler) {
+	public void setMessageHandler(
+			@Nullable BiConsumer<ModbusMessage, Consumer<ModbusMessage>> messageHandler) {
 		this.messageHandler = messageHandler;
 	}
 
@@ -369,6 +372,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 * @return the handler
 	 * @since 1.1
 	 */
+	@Nullable
 	public BiConsumer<Throwable, Consumer<ModbusMessage>> getExceptionHandler() {
 		return exceptionHandler;
 	}
@@ -385,7 +389,8 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 *        the exception handler to set
 	 * @since 1.1
 	 */
-	public void setExceptionHandler(BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler) {
+	public void setExceptionHandler(
+			@Nullable BiConsumer<Throwable, Consumer<ModbusMessage>> exceptionHandler) {
 		this.exceptionHandler = exceptionHandler;
 	}
 
@@ -395,6 +400,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 * @return a client connection listener, or {@code null}
 	 * @see #setClientConnectionListener(BiFunction)
 	 */
+	@Nullable
 	public BiFunction<String, Boolean, Boolean> getClientConnectionListener() {
 		return clientConnectionListener;
 	}
@@ -418,14 +424,14 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 *        the client connection listener, or {@code null}
 	 */
 	public void setClientConnectionListener(
-			BiFunction<String, Boolean, Boolean> clientConnectionListener) {
+			@Nullable BiFunction<String, Boolean, Boolean> clientConnectionListener) {
 		this.clientConnectionListener = clientConnectionListener;
 	}
 
 	/**
 	 * Get the "wire logging" setting.
 	 * 
-	 * @return {@literal true} to enable wire-level logging of all messages
+	 * @return {@code true} to enable wire-level logging of all messages
 	 */
 	public boolean isWireLogging() {
 		return wireLogging;
@@ -435,7 +441,7 @@ public class NettyRtuModbusServer implements ChannelFactory<SerialPortChannel> {
 	 * Set the "wire logging" setting.
 	 * 
 	 * @param wireLogging
-	 *        {@literal true} to enable wire-level logging of all messages
+	 *        {@code true} to enable wire-level logging of all messages
 	 */
 	public void setWireLogging(boolean wireLogging) {
 		this.wireLogging = wireLogging;

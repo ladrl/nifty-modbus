@@ -22,6 +22,8 @@
 
 package net.solarnetwork.io.modbus;
 
+import org.jspecify.annotations.Nullable;
+
 /**
  * A general Modbus exception.
  *
@@ -41,7 +43,7 @@ public class ModbusException extends RuntimeException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param message
 	 *        the message
 	 */
@@ -51,23 +53,23 @@ public class ModbusException extends RuntimeException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param cause
 	 *        the cause
 	 */
-	public ModbusException(Throwable cause) {
+	public ModbusException(@Nullable Throwable cause) {
 		super(cause);
 	}
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param message
 	 *        the message
 	 * @param cause
 	 *        the cause
 	 */
-	public ModbusException(String message, Throwable cause) {
+	public ModbusException(String message, @Nullable Throwable cause) {
 		super(message, cause);
 	}
 
