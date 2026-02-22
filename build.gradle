@@ -7,7 +7,7 @@ buildscript {
 }
 
 plugins {
-	id "com.vanniktech.maven.publish" version "0.34.0"
+	id "com.vanniktech.maven.publish" version "0.34.0" apply false
 	id 'net.ltgt.errorprone' version '4.2.0' apply false
 }
 
