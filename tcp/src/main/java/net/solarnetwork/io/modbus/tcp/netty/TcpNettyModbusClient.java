@@ -30,6 +30,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.IntSupplier;
+
+import io.netty.channel.nio.NioEventLoopGroup;
 import org.jspecify.annotations.Nullable;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -37,8 +39,6 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.MultiThreadIoEventLoopGroup;
-import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import net.solarnetwork.io.modbus.ModbusClient;
@@ -75,11 +75,11 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * <p>
 	 * A default {@link EventLoopGroup} will be used.
 	 * </p>
-	 * 
+	 *
 	 * @param clientConfig
 	 *        the client configuration
 	 */
@@ -90,7 +90,7 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param eventLoopGroup
@@ -107,11 +107,11 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * <p>
 	 * A default {@link EventLoopGroup} will be used.
 	 * </p>
-	 * 
+	 *
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param pending
@@ -134,7 +134,7 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param clientConfig
 	 *        the client configuration
 	 * @param scheduler
@@ -163,7 +163,7 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 			IntSupplier transactionIdSupplier) {
 		super(clientConfig, scheduler, pending);
 		if ( eventLoopGroup == null ) {
-			eventLoopGroup = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
+			eventLoopGroup = createGroup();
 			this.privateEventLoopGroup = true;
 		} else {
 			this.privateEventLoopGroup = false;
@@ -180,6 +180,14 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 		this.transactionIdSupplier = transactionIdSupplier;
 	}
 
+	/**
+	 * Create the client event loop group. Override this method to provide a custom
+	 * event loop group.
+	 */
+	protected NioEventLoopGroup createGroup() {
+		return new NioEventLoopGroup();
+	}
+
 	@Override
 	protected synchronized ChannelFuture connect() throws IOException {
 		eventLoopGroupStopFuture = null;
@@ -189,7 +197,7 @@ public class TcpNettyModbusClient extends NettyModbusClient<TcpModbusClientConfi
 		}
 		if ( eventLoopGroup.isShuttingDown() ) {
 			if ( privateEventLoopGroup ) {
-				eventLoopGroup = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
+				eventLoopGroup = createGroup();
 			} else {
 				throw new IOException("External EventLoopGroup is stopped.");
 			}

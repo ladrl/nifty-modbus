@@ -33,6 +33,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.IntSupplier;
+
+import io.netty.channel.nio.NioEventLoopGroup;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,9 +47,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.MultiThreadIoEventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
@@ -59,7 +59,7 @@ import net.solarnetwork.io.modbus.tcp.TcpModbusUnsupportedFunctionException;
 
 /**
  * A basic asynchronous Modbus TCP server.
- * 
+ *
  * <p>
  * This server listens for Modbus requests, decodes them into
  * {@link ModbusMessage} instances, and then passes those to the handler
@@ -103,11 +103,11 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * <p>
 	 * Defaults to {@link #DEFAULT_BIND_ADDRESS}.
 	 * </p>
-	 * 
+	 *
 	 * @param port
 	 *        the port to listen on
 	 * @throws IllegalArgumentException
@@ -119,7 +119,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param bindAddress
 	 *        the address to listen on
 	 * @param port
@@ -134,11 +134,11 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * <p>
 	 * Defaults to {@link #DEFAULT_BIND_ADDRESS}.
 	 * </p>
-	 * 
+	 *
 	 * @param port
 	 *        the port to listen on
 	 * @param pendingMessages
@@ -156,7 +156,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param bindAddress
 	 *        the address to listen on
 	 * @param port
@@ -190,7 +190,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Start the server.
-	 * 
+	 *
 	 * <p>
 	 * Upon return the server will be bound and ready to accept connections on
 	 * the configured port.
@@ -201,9 +201,9 @@ public class NettyTcpModbusServer {
 			return;
 		}
 		try {
-			EventLoopGroup bGroup = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
+			EventLoopGroup bGroup = createBossGroup();
 			this.bossGroup = bGroup;
-			EventLoopGroup wGroup = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
+			EventLoopGroup wGroup = createWorkerGroup();
 			this.workerGroup = wGroup;
 
 			// @formatter:off
@@ -243,6 +243,22 @@ public class NettyTcpModbusServer {
 			}
 			throw new RuntimeException(msg, e);
 		}
+	}
+
+	/**
+	 * Create the boss event loop group. Override this method to provide a custom
+	 * event loop group.
+	 */
+	protected NioEventLoopGroup createBossGroup() {
+		return new NioEventLoopGroup();
+	}
+
+	/**
+	 * Create the worker event loop group. Override this method to provide a custom
+	 * event loop group.
+	 */
+	protected NioEventLoopGroup createWorkerGroup() {
+		return new NioEventLoopGroup();
 	}
 
 	/**
@@ -383,7 +399,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Get the address the server will listen on.
-	 * 
+	 *
 	 * @return the socket bind address; defaults to
 	 *         {@link #DEFAULT_BIND_ADDRESS}
 	 */
@@ -393,7 +409,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Get the port the server is listening to.
-	 * 
+	 *
 	 * @return the port
 	 */
 	public int getPort() {
@@ -402,7 +418,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Get the message handler.
-	 * 
+	 *
 	 * @return the handler
 	 */
 	@Nullable
@@ -412,12 +428,12 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Set the message handler.
-	 * 
+	 *
 	 * <p>
 	 * This handler will be passed an inbound message along with another
 	 * {@code Consumer} for the reply message.
 	 * </p>
-	 * 
+	 *
 	 * @param messageHandler
 	 *        the handler to set
 	 */
@@ -428,7 +444,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Get the exception handler.
-	 * 
+	 *
 	 * @return the handler
 	 * @since 1.1
 	 */
@@ -439,12 +455,12 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Set the exception handler.
-	 * 
+	 *
 	 * <p>
 	 * This handler will be passed an exception along with a {@code Consumer}
 	 * for any reply message.
 	 * </p>
-	 * 
+	 *
 	 * @param exceptionHandler
 	 *        the exception handler to set
 	 * @since 1.1
@@ -456,7 +472,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Get an optional listener for client connection events.
-	 * 
+	 *
 	 * @return a client connection listener, or {@code null}
 	 * @see #setClientConnectionListener(BiFunction)
 	 */
@@ -467,19 +483,19 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Set an optional listener for client connection events.
-	 * 
+	 *
 	 * <p>
 	 * The client remote address is passed to the consumer as the first
 	 * argument. When a client connects, {@code true} will be passed as the
 	 * second argument; when a client disconnects, {@code false} will be passed.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The return argument is inspected only after a connection event. If
 	 * {@code false} is returned, the client connection will be closed. This
 	 * provides a way to deny a client connection.
 	 * </p>
-	 * 
+	 *
 	 * @param clientConnectionListener
 	 *        the client connection listener, or {@code null}
 	 */
@@ -490,7 +506,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Get the "wire logging" setting.
-	 * 
+	 *
 	 * @return {@code true} to enable wire-level logging of all messages
 	 */
 	public boolean isWireLogging() {
@@ -499,7 +515,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Set the "wire logging" setting.
-	 * 
+	 *
 	 * @param wireLogging
 	 *        {@code true} to enable wire-level logging of all messages
 	 */
@@ -509,7 +525,7 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Get the pending Modbus message time-to-live expiration time.
-	 * 
+	 *
 	 * @return the pendingMessageTtl the pending Modbus message time-to-live, in
 	 *         milliseconds; defaults to {@link #DEFAULT_PENDING_MESSAGE_TTL}
 	 */
@@ -519,13 +535,13 @@ public class NettyTcpModbusServer {
 
 	/**
 	 * Set the pending Modbus message time-to-live expiration time.
-	 * 
+	 *
 	 * <p>
 	 * This timeout represents the minimum amount of time the client will wait
 	 * for a Modbus message response, before it qualifies for removal from the
 	 * pending message queue.
 	 * </p>
-	 * 
+	 *
 	 * @param pendingMessageTtl
 	 *        the pending Modbus message time-to-live, in milliseconds
 	 */
